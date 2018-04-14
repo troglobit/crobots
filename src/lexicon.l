@@ -18,23 +18,28 @@ L			[a-zA-Z_]
 #include "crobots.h"
 #include "compiler.h"
 
-/* redefine i/o */
-#undef 	input
-#define	input()  	lexgetc()
-#undef 	unput
-#define	unput(c) 	lexungetc(c)
-#undef 	output   
-#define output(c)	lexputc(c)
+
 #undef ECHO
 #define ECHO fprintf(f_out,"%s",yytext)
 
-long atol();
-int count();
+int yywrap(void);
+void count(void);
+int lexgetc(void);
+void lexungetc(int c);
+void lexputc(int c);
+int allprint(void);
+int sprint(void);
+
 
 %}
 
+%x C_COMMENT
+
 %%
-"/*"			{ comment(); }
+
+"/*"            { BEGIN(C_COMMENT); }
+<C_COMMENT>"*/" { BEGIN(INITIAL); }
+<C_COMMENT>.    { }
 
 "auto"			{ count(); return(AUTO); }
 "break"			{ count(); return(BREAK); }
@@ -48,12 +53,12 @@ int count();
 "return"		{ count(); return(RETURN); }
 "while"			{ count(); return(WHILE); }
 
-{L}({L}|{D})*		{ count(); 
+{L}({L}|{D})*		{ count();
 				strncpy(last_ident,yytext,ILEN-1);
 				last_ident[ILEN-1] = '\0';
 				return(IDENTIFIER); }
 
-{D}+     		{ count(); 
+{D}+     		{ count();
 				kk = atol(yytext);
 				return(CONSTANT); }
 
@@ -101,38 +106,18 @@ int count();
 [ \t\v\n\f]		{ count(); }
 .			{ /* ignore bad characters */ }
 
+
 %%
 
-yywrap()
+
+int yywrap(void)
 {
 	return(1);
 }
 
-comment()
-{
-	char c, c1;
-
-	output('/');
-	output('*');
-
-loop:
-	while ((c = input()) != '*' && c != 0)
-		output(c);
-
-	if ((c1 = input()) != '/' && c != 0)
-	{
-		unput(c1);
-		goto loop;
-	}
-
-	if (c != 0) {
-		output('*');
-		output(c1);
-	}
-}
 
 
-count()
+void count(void)
 {
 	int i;
 
@@ -148,29 +133,35 @@ count()
 }
 
 
+/* redefine i/o */
+#undef  yyinput
+#define yyinput()         lexgetc()
+#undef  yyunput
+#define yyunput(c)        lexungetc(c)
+#undef  yyoutput
+#define yyoutput(c)       lexputc(c)
+
+
 /* the i/o routines depend on f_in and f_out to be opened elsewhere */
 
-int lexgetc()
+int lexgetc(void)
 {
   int c;
-  c = fgetc(f_in);
+  c = fgetc(yyin);
   return ((c == EOF) ? 0 : c);
 }
 
-lexungetc(c)
-int c;
+void lexungetc(int c)
 {
-  ungetc(c,f_in);
+  ungetc(c,yyin);
 }
 
-lexputc(c)
-int c;
+void lexputc(int c)
 {
-  fputc(c,f_out);
+  fputc(c,yyout);
 }
 
 /* these two dummy routines for lex's debug options */
-allprint() {}
+int allprint(void) {}
 
-sprint() {} 
-
+int sprint(void) {}
