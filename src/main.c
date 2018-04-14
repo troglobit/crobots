@@ -12,31 +12,48 @@
 /* main.c - top level controller */
 
 
-#include <stdio.h>
-
 /* INIT causes externals in crobots.h to have storage, & init intrinsic table */
 #define INIT 1 
-#include "crobots.h"
 
-#ifdef UNIX
+/* C includes */
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <signal.h>
-extern int catch_int();
-#endif
-#ifdef LATTICE
-int _stack = 6000;  /* Lattice C: give more stack than default of 2048 */
-#endif
+/* crobots includes */
+#include"crobots.h"
+#include"compiler.h"
+#include"display.h"
+#include"tokens.h"
+#include"cpu.h"
+#include"motion.h"
+#include"screen.h"
+
+
+
 
 /* files declared in compiler.h */
 FILE *f_in;
 FILE *f_out;
+/* flex input and output files */
+extern FILE *yyin;
+extern FILE *yyout;
 
-char *version   = "CROBOTS - version 1.1, December, 1985\n";
-char *copyright = "Copyright 1985 by Tom Poindexter, All rights reserved.\n";
+/* SIGINT handler */
+void catch_int(int);
+
+/* high level functions */
+void init_robot(int i);
+void comp(char *f[], int n);
+void trace(char *f);
+void match(int m, long l, char *f[], int n);
+void play(char *f[], int n);
+void free_robot(int i);
+void rand_pos(int n);
 
 
-main(argc,argv)
-int argc;
-char *argv[];
+int main(int argc,char *argv[])
 {
   long limit = CYCLE_LIMIT;
   int matches = 0;
@@ -51,14 +68,14 @@ char *argv[];
   long time();
   long atol();
   long cur_time;
-  int srand();
+  //int srand();
 
 
   /* print version, copyright notice, GPL notice */
 
   fprintf(stderr,"\n");
-  fprintf(stderr,version);
-  fprintf(stderr,copyright);
+  fprintf(stderr,"CROBOTS - version 1.1, December, 1985\n");
+  fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
   fprintf(stderr,"\n     CROBOTS - fighting robots C compiler and virtual computer\n");
   fprintf(stderr,"       distributed under the GNU GPL, version 2.\n");
   fprintf(stderr,"\n");
@@ -123,7 +140,7 @@ char *argv[];
 
       if (num_robots < MAXROBOTS) {
 	if ((f_in = fopen(argv[i],"r")) != (FILE *) NULL) {
-	  fclose(f_in);
+//	  fclose(f_in);
 	  files[num_robots] = argv[i];
 	  num_robots++;
 	} else {
@@ -189,11 +206,7 @@ char *argv[];
 
 
 /* comp - only compile the files with full info */
-
-comp(f,n)
-
-char *f[];
-int n;
+void comp(char *f[], int n)
 {
   int i;
 
@@ -208,6 +221,7 @@ int n;
     r_flag = 0;
     cur_robot = &robots[i];
     init_comp();	/* initialize the compiler */
+    yyin=f_in;
     yyparse();		/* start compiling */
     reset_comp();	/* reset compiler and complete robot */
     fclose(f_in);
@@ -227,11 +241,7 @@ int n;
 
 
 /* play - watch the robots compete */
-
-play(f,n)
-
-char *f[];
-int n;
+void play(char *f[], int n)
 {
   int num_robots = 0;
   int robotsleft;
@@ -241,8 +251,9 @@ int n;
   long c = 0L;
   char *s;
   char *strrchr();  /* this is rindex in some implementations */
-
-  f_out = stdout;
+  
+  //f_out = fopen("/dev/null","w");
+  f_out=stdout;
   r_debug = 0;  /* turns off full compile info */
 
   for (i = 0; i < n; i++) {
@@ -254,6 +265,7 @@ int n;
     cur_robot = &robots[num_robots];
 
     init_comp();	/* initialize the compiler */
+    yyin = f_in;
     yyparse();		/* start compiling */
     reset_comp();	/* reset compiler and complete robot */
     fclose(f_in);
@@ -265,13 +277,8 @@ int n;
     } else {
       fprintf(stdout,"\n %s compiled without errors\n",f[i]);
       /* get last part of file name */
-#ifdef UNIX
       s = strrchr(f[i],'/');
-#else
-      if (*f[i]+1 == ':')   	/* drive specified? */
-	f[i] = f[i] + 2;	/* yes, skip it */
-      s = strrchr(f[i],'\\');
-#endif
+
       if (s == (char *) NULL)
         s = f[i];
       strcpy(robots[num_robots].name,s);
@@ -287,11 +294,9 @@ int n;
     exit(1);
   }
 
-#ifdef UNIX
   /* catch interrupt */
   if (signal(SIGINT,SIG_IGN) != SIG_IGN)
     signal(SIGINT,catch_int);
-#endif
 
   rand_pos(num_robots);
 
@@ -308,6 +313,8 @@ int n;
       if (robots[i].status == ACTIVE) {
 	robotsleft++;
         cur_robot = &robots[i];
+	/* TODO simulate fixed virtual Mhz */
+	usleep(CYCLE_DELAY);
 	cycle();
       } 
     }
@@ -346,6 +353,8 @@ int n;
       break;
   }
 
+  end_disp();
+
   k = 0;
   for (i = 0; i < MAXROBOTS; i++) {
     if (robots[i].status == ACTIVE) {
@@ -360,7 +369,7 @@ int n;
     fprintf(stdout,"\r\nIt's a draw\r\n");
   }
 
-  end_disp();
+  //end_disp();
   exit(0);
 
 }
@@ -369,13 +378,7 @@ int n;
 
 
 /* match - run a series of matches */
-
-match(m,l,f,n)
-
-int m;
-long l;
-char *f[];
-int n;
+void match(int m, long l, char *f[], int n)
 {
   int num_robots = 0;
   int robotsleft;
@@ -388,11 +391,7 @@ int n;
   char *s;
   char *strrchr();  /* this is rindex in some implementations */
 
-#ifdef UNIX
   f_out = fopen("/dev/null","w");
-#else
-  f_out = fopen("nul:","w");
-#endif
   r_debug = 0;  /* turns off full compile info */
 
   for (i = 0; i < n; i++) {
@@ -407,6 +406,7 @@ int n;
 
     /* compile the robot */
     init_comp();
+    yyin=f_in;
     yyparse();
     reset_comp();
     fclose(f_in);
@@ -418,11 +418,8 @@ int n;
     } else {
       fprintf(stderr,"\n %s compiled without errors\n",f[i]);
       /* get last part of file name */
-#ifdef UNIX
       s = strrchr(f[i],'/');
-#else
-      s = strrchr(f[i],'\\');
-#endif
+
       if (s == (char *) NULL)
         s = f[i];
       strcpy(robots[num_robots].name,s);
@@ -464,9 +461,7 @@ int n;
 	movement = MOTION_CYCLES;
 	move_robots(0);
 	move_miss(0);
-#ifdef DOS
-        kbhit();  /* check keyboard so ctrl-break can work */
-#endif
+
 	for (i = 0; i < num_robots; i++) {
 	  for (j = 0; j < MIS_ROBOT; j++) {
 	    if (missiles[i][j].stat == EXPLODING) {
@@ -543,10 +538,7 @@ int n;
 /* rand_pos - randomize the starting robot postions */
 /*           dependent on MAXROBOTS <= 4 */
 /*            put robots in separate quadrant */
-
-rand_pos(n)
-
-int n;
+void rand_pos(int n)
 {
   int i, k;
   int quad[4];
@@ -577,10 +569,7 @@ int n;
 
 
 /* trace - compile and run the robot in debug mode */
-
-trace(f)
-
-char *f;
+void trace(char *f)
 {
   int c = 1; 
 
@@ -592,6 +581,7 @@ char *f;
   r_flag = 0;
   cur_robot = &robots[0];
   init_comp();
+  yyin=f_in;
   yyparse();
   reset_comp();
 
@@ -614,7 +604,7 @@ char *f;
 
   cur_robot = &robots[0];
 
-  fprintf("\n\nReady to debug, use `d' to dump robot info, `q' to quit.\n\n");
+  printf("\n\nReady to debug, use `d' to dump robot info, `q' to quit.\n\n");
 
   while (c) {  
     cycle();
@@ -632,9 +622,7 @@ char *f;
 
 
 /* init a robot */
-init_robot(i)
-
-int i;
+void init_robot(int i)
 {
   register int j;
 
@@ -668,12 +656,9 @@ int i;
 
 
 /* free_robot - frees any allocated storage in a robot */
-
-free_robot(i) 
-
-int i;
+void free_robot(int i) 
 {
-  struct func *temp;
+  s_func *temp;
 
   if (robots[i].funcs != (char *) 0)
     free(robots[i].funcs);
@@ -687,7 +672,7 @@ int i;
   if (robots[i].stackbase != (long *) 0)
     free(robots[i].stackbase);
 
-  while (robots[i].code_list != (struct func *) 0) {
+  while (robots[i].code_list != (s_func *) 0) {
     temp = robots[i].code_list;
     robots[i].code_list = temp->nextfunc;
     free(temp);
@@ -698,10 +683,8 @@ int i;
 
 #ifdef UNIX
 /* catch_int - catch the interrupt signal and die, cleaning screen */
-
-catch_int()
+void catch_int(int i)
 {
-  int i;
 /* 
   for (i = 0; i < MAXROBOTS; i++) {
     cur_robot = &robots[i];
@@ -734,31 +717,6 @@ catch_int()
 }
 #endif
 
-#ifdef DOS
-
-/* not quite the unix time() function, but gets the job done */
-
-long time(x)
-long *x;
-{
-  struct {
-    short ax,bx,cx,dx,si,di;
-  } regs;
-  int intno = 0x21;	/* dos call */
-  long value;
-
-  regs.ax = 0x2c00;   	/* ah = function 2C, get time */
-
-  int86(intno,&regs,&regs);
-
-  value = regs.cx;
-  value <<= 16;		/* shift into high part */
-  value |= regs.dx;	/* low part */
-
-  return (value);
-}
-
-#endif
 
 
 /* end of main.c */

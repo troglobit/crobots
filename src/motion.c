@@ -11,8 +11,11 @@
 
 /* motion.c - routines to update robot & missiles positions */
 
-#include "crobots.h"
+#include <stdlib.h>
 #include <math.h>
+#include "crobots.h"
+#include "motion.h"
+#include "screen.h"
 
 /* define long absolute value function */
 #define labs(l) ((long) l < 0L ? -l : l)
@@ -20,7 +23,7 @@
 
 /* sine and cosine lookup table, times 100,000 */
 /* to bypass floating point transcendentals, for speed */
-
+/* angles from 0 to 90 (91 entries total) */
 long trig_tbl[91] = {
          0L,
       1745L,
@@ -117,10 +120,7 @@ long trig_tbl[91] = {
 
 
 /* sin look up */
-
-long lsin(deg)
-
-int deg;
+long lsin(int deg)
 {
   deg = deg % 360;
   if (deg < 0)
@@ -144,9 +144,7 @@ int deg;
 
 /* cos look up */
 
-long lcos(deg)
-
-int deg;
+long lcos(int deg)
 {
   deg = deg % 360;
   if (deg < 0)
@@ -182,8 +180,7 @@ struct {
 /* move_robots - update the postion of all robots */
 /*               parm 'displ' controls call to field display */
 
-move_robots(displ)
-int displ;
+void move_robots(int displ)
 {
   register int i, n;
   long lsin(), lcos();
@@ -244,6 +241,7 @@ int displ;
       for (n = 0; n < MAXROBOTS; n++) {
         if (robots[n].status == DEAD || i == n)
           continue;
+
 	if ( abs(robots[i].x - robots[n].x) < CLICK &&
 	     abs(robots[i].y - robots[n].y) < CLICK ) {
 	  /* collision, damage moving robot... */
@@ -293,8 +291,7 @@ int displ;
 /* move_miss - updates all missile positions */
 /*             parm 'displ' control display */
 
-move_miss(displ)
-int displ;
+void move_miss(int displ)
 {
   register int r, i;
   int n, j;

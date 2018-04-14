@@ -11,16 +11,18 @@
 
 /* cpu.c - the routines to execute crobot instructions */
 
+
 #include <stdio.h>
+#include <string.h>
 #include "crobots.h"
 #include "tokens.h"
+#include "compiler.h"
+#include "cpu.h"
 
 /* push - basic stack push mechanism */
 /*         depends on cur_robot, set r_flag on overflow */
 
-long push(k)
-
-long k;
+long push(long k)
 {
   /* increment stack and check for collistion into return ptrs */
   if (++cur_robot->stackptr == cur_robot->retptr) {
@@ -35,7 +37,7 @@ long k;
 /* pop - basic stack pop mechanism */
 /*         depends on cur_robot, set r_flag on overflow */
 
-long pop()
+long pop(void)
 {
   long v;
   if (cur_robot->stackptr == cur_robot->stackbase) {
@@ -54,7 +56,7 @@ long pop()
 /* any errors (stack collision, missing functions, etc) cause the 'main' */
 /* function to be restarted, with a clean stack; signal by r_flag = 1 */
 
-cycle()
+void cycle(void)
 {
   int j;
   int c;
@@ -68,7 +70,6 @@ cycle()
   long push();
   long pop();
 
-
   cur_instr = cur_robot->ip;
 
   if (r_debug) 
@@ -79,7 +80,7 @@ cycle()
     case FETCH:		/* push a value from a variable pool */
 
       if (cur_instr->u.var1 & EXTERNAL) 
-	push(*(cur_robot->external + (cur_instr->u.var1 & ~EXTERNAL)));
+	push(*(cur_robot->external + (cur_instr->u.var1 & (short int)~EXTERNAL)));
       else
 	push(*(cur_robot->local + cur_instr->u.var1));
       cur_robot->ip++;
@@ -90,7 +91,7 @@ cycle()
 
       binaryop(cur_instr->u.a.a_op);	/* perform assignment operation */
       if (cur_instr->u.a.var2 & EXTERNAL) 
-	*(cur_robot->external +(cur_instr->u.a.var2 & ~EXTERNAL)) = push(pop());
+	*(cur_robot->external +(cur_instr->u.a.var2 & (short int)~EXTERNAL)) = push(pop());
       else
 	*(cur_robot->local + cur_instr->u.var1) = push(pop());
       cur_robot->ip++;
@@ -287,11 +288,11 @@ cycle()
       dumpvar(cur_robot->external,cur_robot->ext_count);
       printf("\nlocal stack");
       dumpvar(cur_robot->local,cur_robot->stackptr - cur_robot->local + 1);
-      printf("\n\nx...........%7ld",cur_robot->x);
-      printf("\ty...........%7ld",cur_robot->y);
-      printf("\norg_x.......%7ld",cur_robot->org_x);
-      printf("\torg_y.......%7ld",cur_robot->org_y);
-      printf("\nrange.......%7ld",cur_robot->range);
+      printf("\n\nx...........%7d",cur_robot->x);
+      printf("\ty...........%7d",cur_robot->y);
+      printf("\norg_x.......%7d",cur_robot->org_x);
+      printf("\torg_y.......%7d",cur_robot->org_y);
+      printf("\nrange.......%7d",cur_robot->range);
       printf("\tspeed.......%7d",cur_robot->speed);
       printf("\nd_speed.....%7d",cur_robot->d_speed);
       printf("\theading.....%7d",cur_robot->heading);
@@ -301,10 +302,10 @@ cycle()
       printf("\tmiss[1]stat.%7d",missiles[cur_robot-&robots[0]][1].stat);
       printf("\nmiss[0]head.%7d",missiles[cur_robot-&robots[0]][0].head);
       printf("\tmiss[1]head.%7d",missiles[cur_robot-&robots[0]][1].head);
-      printf("\nmiss[0]x....%7ld",missiles[cur_robot-&robots[0]][0].cur_x);
-      printf("\tmiss[1]y....%7ld",missiles[cur_robot-&robots[0]][1].cur_y);
-      printf("\nmiss[0]dist.%7ld",missiles[cur_robot-&robots[0]][0].curr_dist);
-      printf("\tmiss[1]dist.%7ld",missiles[cur_robot-&robots[0]][1].curr_dist);
+      printf("\nmiss[0]x....%7d",missiles[cur_robot-&robots[0]][0].cur_x);
+      printf("\tmiss[1]y....%7d",missiles[cur_robot-&robots[0]][1].cur_y);
+      printf("\nmiss[0]dist.%7d",missiles[cur_robot-&robots[0]][0].curr_dist);
+      printf("\tmiss[1]dist.%7d",missiles[cur_robot-&robots[0]][1].curr_dist);
       printf("\n\n");
       getchar();
     } else {
@@ -325,9 +326,7 @@ cycle()
 /* binaryop - pops 2 operands, performs operation, pushes result */
 /*            divide by zero handled by returning 0 */
 
-binaryop(op)
-
-int op;
+void binaryop(int op)
 {
   long x,y;
 
@@ -485,9 +484,7 @@ int op;
 
 /* robot_go - start the robot pointed to by r */
 
-robot_go(r)
-
-struct robot *r;
+void robot_go(struct robot *r)
 {
   register struct func *f;
   register int i;
@@ -510,10 +507,7 @@ struct robot *r;
 
 /* dumpvar - dump a variable pool or stack for length size */
 
-dumpvar(pool,size)
-
-long *pool;
-int size;
+void dumpvar(long *pool, int size)
 {
   register int i;
 

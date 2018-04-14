@@ -9,21 +9,26 @@
 /*                                                                           */
 /*****************************************************************************/
 
-/* compiler.c - compiler routines in support of grammar.c */
-
-#include <stdio.h>
-
-#include "crobots.h"
 /* EXT causes externals to be declared without extern keyword in compiler.h */
 /* that is, to give them actual storage (some compilers require this method) */
 #define EXT 1
+
+
+
+/* compiler.c - compiler routines in support of grammar.c */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "crobots.h"
 #include "compiler.h"
 #include "tokens.h"
 
-/* yyerror - simple error message on parser failure */
 
-yyerror(s)
-char *s;
+
+/* yyerror - simple error message on parser failure */
+void yyerror(char *s)
 {
   int i;
   r_flag = 1;
@@ -35,13 +40,12 @@ char *s;
 }
 
 
-char *malloc();
+void *malloc();
 
 
 /* init_comp - initializes the compiler for one file */
 /* assumes robot structure allocated and pointed to by cur->robot */
-
-init_comp() 
+void init_comp(void) 
 {
   register int i;
 
@@ -78,9 +82,9 @@ init_comp()
   op_off = 0;
 
   /* allocate code space in robot, code should not be freed */
-  cur_robot->code_list = (struct func *) 0;
-  cur_robot->code = (struct instr *) malloc(CODESPACE * sizeof(struct instr));
-  instruct = (struct instr *) cur_robot->code;
+  cur_robot->code_list = (s_func *) 0;
+  cur_robot->code = (s_instr *) malloc(CODESPACE * sizeof(s_instr));
+  instruct = (s_instr *) cur_robot->code;
 
   /* initialize all tables */
   for (i = 0; i < MAXSYM; i++) {
@@ -97,13 +101,12 @@ init_comp()
 
 /* reset_comp - resets the compiler for another file */
 /* completes the robot structure */
-
-reset_comp() 
+int reset_comp(void) 
 {
   int i, j;
   int found = 0;
   int mainfunc = 0;
-  struct func *chain;
+  s_func *chain;
   int good = 1;
   int ext_size;
 
@@ -120,7 +123,7 @@ reset_comp()
   /* this ensures no functions are referenced that are not coded or intrinsic */
   for (i = 0; *(func_tab + (i * ILEN)) != '\0'; i++) {
     found = 0;
-    for (chain = cur_robot->code_list; chain != (struct func *) 0; 
+    for (chain = cur_robot->code_list; chain != (s_func *) 0; 
 	 chain = chain->nextfunc) {
       if (strcmp((func_tab + (i *ILEN)),chain->func_name) == 0) {
 	found = 1;
@@ -187,7 +190,7 @@ reset_comp()
   /* if compile was ok, then allocate external pool, stack, and robot flags */
   if (good) {
     cur_robot->ext_count = ext_size;
-    cur_robot->external = (long *) malloc(cur_robot->ext_count * sizeof(long));
+    cur_robot->external = (long *) malloc(cur_robot->ext_count * sizeof(long)); /*fixed size reserved*/
     cur_robot->stackbase = (long *) malloc(DATASPACE * sizeof(long));
     cur_robot->stackend = cur_robot->stackbase + DATASPACE;
     cur_robot->funcs = func_tab;
@@ -199,11 +202,10 @@ reset_comp()
 
 
 /* new_func - reset the compiler for a new function within the same file */
-
-new_func()
+int new_func(void)
 {
   register int i;
-
+  
   /* make sure name is not an intrinsic */
   for (i = 0; *(intrinsics[i].n) != '\0'; i++) {
     if (strcmp(intrinsics[i].n,func_ident) == 0) {
@@ -217,13 +219,13 @@ new_func()
   }
 
   /* func name ok, insert a new function header */
-  new = (struct func *) malloc(sizeof (struct func)); /* never freed */
-  new->nextfunc = cur_robot->code_list;		/* link in */
-  cur_robot->code_list = new;			/*  "    " */
-  strcpy(new->func_name,func_ident);		/* copy name */
-  new->first = instruct;			/* current instruct is start */
-  new->var_count = 0; 				/* filled-in later */
-  new->par_count = num_parm;			/* number of parms */
+  nf = (s_func *) malloc(sizeof (s_func)); /* never freed */
+  nf->nextfunc = cur_robot->code_list;		/* link in */
+  cur_robot->code_list = nf;			/*  "    " */
+  strcpy(nf->func_name,func_ident);		/* copy name */
+  nf->first = instruct;			/* current instruct is start */
+  nf->var_count = 0; 				/* filled-in later */
+  nf->par_count = num_parm;			/* number of parms */
   in_func = 1;
   if (findvar(func_ident,func_tab) == -1)	/* add name to function table */
     allocvar(func_ident,func_tab);
@@ -233,8 +235,7 @@ new_func()
 
 
 /* end_func - cleanup the end of a function */
-
-end_func() 
+void end_func(void) 
 {
   register int i;
 
@@ -247,13 +248,13 @@ end_func()
   var_off = 0;
 
   if (r_debug) {
-    fprintf(f_out,"\n\nFunction: %s\n\n  Local symbol table:\n",new->func_name);
+    fprintf(f_out,"\n\nFunction: %s\n\nLocal symbol table:\n",nf->func_name);
     dumpoff(var_tab);
-    fprintf(f_out,"\n\n\nExternal symbol table:\n");
+    fprintf(f_out,"\n\nExternal symbol table:\n");
     dumpoff(ext_tab);
     fprintf(f_out,"\n\nFunction symbol table:\n");
     dumpoff(func_tab);
-    fprintf(f_out,"\n\n Generated code:\n");
+    fprintf(f_out,"\n\nGenerated code:\n");
     decompile(cur_robot->code_list->first);
   }
 
@@ -267,11 +268,7 @@ end_func()
 
 
 /* allocvar - allocates a variable in a pool, returns offset */
-
-allocvar(s,pool) 
-
-char s[];
-char *pool;
+int allocvar(char s[], char *pool) 
 {
   register int i;
 
@@ -291,11 +288,7 @@ char *pool;
 
 
 /* findvar - returns offset of variable in a pool */
-
-findvar(s,pool)
-
-char s[];
-char *pool;
+int findvar(char s[], char *pool)
 {
   register int i;
 
@@ -309,12 +302,7 @@ char *pool;
 
 
 /* stackid - stacks an identifier, note pointer to stack offset */
-
-stackid(id,stack,ptr)
-
-char id[];
-char *stack;
-int *ptr;
+int stackid(char id[], char *stack, int *ptr)
 {
   if (*ptr < MAXSYM - 1) {
     (*ptr)++;				/* the ptr itself is incremented */
@@ -330,12 +318,7 @@ int *ptr;
 
 
 /* popid - unstacks an identifier, note pointer to stack offset */
-
-popid(id,stack,ptr)
-
-char id[];
-char *stack;
-int *ptr;
+int popid(char id[], char *stack, int *ptr)
 {
   if (*ptr > 0) {
     strcpy(id,stack + (*ptr * ILEN));
@@ -353,10 +336,7 @@ int *ptr;
 
 
 /* poolsize - returns the size of a pool */
-
-poolsize(pool)
-
-char *pool;
+int poolsize(char *pool)
 {
   register int i;
 
@@ -374,10 +354,7 @@ char *pool;
 
 
 /* dumpoff - print a table of names and offsets in a symbol pool */
-
-dumpoff(pool)
-
-char *pool;
+void dumpoff(char *pool)
 {
   register int i;
   int count = 0;
@@ -393,14 +370,12 @@ char *pool;
   }
 }
 
+
 /* all code emit functions check for code space availability, and increments */
 /* the current instruction pointer within the code space */
 
 /* efetch - emit a fetch instruction */
-
-efetch(offset)
-
-int offset;
+int efetch(int offset)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -416,11 +391,7 @@ int offset;
 
 
 /* estore - emit a store instruction */
-
-estore(offset, operator)
-
-int offset;
-int operator;
+int estore(int offset, int op)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -429,18 +400,15 @@ int operator;
     return (0);
   }
   instruct->ins_type = STORE;
-  instruct->u.a.var2 = offset;
-  instruct->u.a.a_op = operator;
+  instruct->u.a.var2 = (short int)offset;
+  instruct->u.a.a_op = op;
   last_ins = instruct++;
   return (1);
 }
 
 
 /* econst - emit a constant instruction */
-
-econst(c)
-
-long c;
+int econst(long c)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -455,10 +423,7 @@ printf("\n\n**econst*\n\n");
 
 
 /* ebinop - emit a binop instruction */
-
-ebinop(c)
-
-int c;
+int ebinop(int c)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -474,10 +439,7 @@ int c;
 
 
 /* efcall - emit a fcall instruction */
-
-efcall (c)
-
-int c;
+int efcall(int c)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -493,9 +455,7 @@ int c;
 
 
 /* eretsub - emit a retsub instruction */
-
-eretsub()
-
+int eretsub(void)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -510,9 +470,7 @@ eretsub()
 
 
 /* ebranch - emit a  branch instruction */
-
-ebranch()
-
+int ebranch(void)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -521,16 +479,14 @@ ebranch()
     return (0);
   }
   instruct->ins_type = BRANCH;
-  instruct->u.br = (struct instr *) 0;	/* must be fixed later */
+  instruct->u.br = (s_instr *) 0;	/* must be fixed later */
   last_ins = instruct++;
   return (1);
 }
 
 
 /* echop - emit a chop instruction */
-
-echop()
-
+int echop(void)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -545,9 +501,7 @@ echop()
 
 
 /* eframe - emit a stack frame instruction */
-
-eframe()
-
+int eframe(void)
 {
   if (++num_instr == CODESPACE) {
     r_flag = 1;
@@ -562,9 +516,7 @@ eframe()
 
 
 /* new_if - start a nest for an if statement */
-
-new_if()
-
+int new_if(void)
 {
   if (if_nest == NESTLEVEL) {
     fprintf(f_out,"\n** Error ** 'if' nest level exceeded\n");
@@ -587,9 +539,7 @@ new_if()
 
 
 /* else_part - the else part of an if-then-else */
-
-else_part()
-
+int else_part(void)
 {	
   /* setup a unconditional branch around the else part */
   if (!econst(0L))
@@ -610,9 +560,7 @@ else_part()
 
 
 /* close_if - close out an if nest */
-
-close_if()
-
+int close_if(void)
 {
   /* fix the not-else branch saved in else_part() */
   (ifs + if_nest)->fix_true->u.br = instruct;
@@ -622,9 +570,7 @@ close_if()
 
 
 /* new_while - start a nest for a new while statement */
-
-new_while()
-
+int new_while(void)
 {
   if (while_nest == NESTLEVEL) {
     fprintf(f_out,"\n** Error ** 'while' nest level exceeded\n");
@@ -643,9 +589,7 @@ new_while()
 
 
 /* while_expr - while expression loop fix */
-
-while_expr()
-
+int while_expr(void)
 {
   if (!ebranch())
     return (0);
@@ -659,9 +603,7 @@ while_expr()
 
 
 /* close_while - close out the while nest */
-
-close_while()
-
+int close_while(void)
 {
   /* emit an unconditional branch */
   if (!econst(0L))
@@ -683,10 +625,7 @@ close_while()
 
 
 /* decompile - print machine code */
-
-decompile(code)
-
-struct instr *code;
+void decompile(s_instr * code)
 {
 
   while (code->ins_type != NOP) {
@@ -698,26 +637,23 @@ struct instr *code;
 
 
 /* decinstr - print one instruct; watch out for pointer to long conversion! */
-
-decinstr(code)
-
-struct instr *code;
+void decinstr(s_instr *code)
 {
 
   fprintf(f_out,"%8ld : ",(long) code);	/* this could be flakey */
   switch (code->ins_type) {
     case FETCH:
       if (code->u.var1 & EXTERNAL) 
-	fprintf(f_out,"fetch   %d external\n",code->u.var1 & ~EXTERNAL);
+	fprintf(f_out,"fetch   %hd external\n",code->u.var1 & ~EXTERNAL);
       else
-	fprintf(f_out,"fetch   %d local\n",code->u.var1);
+	fprintf(f_out,"fetch   %hd local\n",code->u.var1);
       break;
     case STORE:
       if (code->u.a.var2 & EXTERNAL)
-	fprintf(f_out,"store   %d external, ",
+	fprintf(f_out,"store   %hd external, ",
 		code->u.a.var2 & ~EXTERNAL);
       else
-	fprintf(f_out,"store   %d local, ",code->u.a.var2);
+	fprintf(f_out,"store   %hd local, ",code->u.a.var2);
       printop(code->u.a.a_op);
       fprintf(f_out,"\n");
       break;
@@ -730,7 +666,7 @@ struct instr *code;
       fprintf(f_out,"\n");
       break;
     case FCALL:
-      fprintf(f_out,"fcall   %d\n",code->u.var1);
+      fprintf(f_out,"fcall   %hd\n",code->u.var1);
       break;
     case RETSUB:
       fprintf(f_out,"retsub\n");
@@ -752,10 +688,7 @@ struct instr *code;
 
 
 /* printop - print a binary operation code */
-
-printop(op)
-
-int op;
+void printop(int op)
 {
 
   switch (op) {
@@ -801,7 +734,7 @@ int op;
       break;
 
     case  '%':
-      fprintf(f_out,"%");
+      fprintf(f_out,"%%");
       break;
 
     case  LEFT_OP:
@@ -845,7 +778,7 @@ int op;
       break;
 
     case  MOD_ASSIGN:
-      fprintf(f_out,"%=");
+      fprintf(f_out,"%%=");
       break;
 
     case  ADD_ASSIGN:
@@ -893,7 +826,5 @@ int op;
       break;
 
   }
-
-
 }
 

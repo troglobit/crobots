@@ -11,8 +11,13 @@
 /*****************************************************************************/
 
 #include <stdio.h>
+#include <string.h>
 #include "crobots.h"
 #include "compiler.h"
+#include "tokens.h"
+
+
+extern int yylex (void);
 
 %}
 
@@ -386,7 +391,7 @@ assignment_expr
 		  }
 		  else
 		    work |= EXTERNAL;
-		if (!estore(work,*(op_stack + op_off)))
+		if (!estore((short int)work,*(op_stack + op_off)))
 		  return(1);
 		op_off--;
 		}

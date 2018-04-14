@@ -12,24 +12,29 @@
 /* screen.c - low level screen display routines */
 /*            change or modify this module for different systems */
 
-#include "crobots.h"
 #include <curses.h>
+#include "crobots.h"
+#include "screen.h"
 
 /* playfield characters */
-#define UL_CORN '+'
-#define UR_CORN '+'
-#define LL_CORN '+'
-#define LR_CORN '+'
-#define VERT    '|'
-#define HORZ    '-'
+#define UL_CORN ACS_ULCORNER
+#define UR_CORN ACS_URCORNER
+#define LL_CORN ACS_LLCORNER
+#define LR_CORN ACS_LRCORNER
+#define VERT    ACS_VLINE
+#define HORZ    ACS_HLINE
+#define T_TEE   ACS_TTEE
+#define B_TEE   ACS_BTEE
 
 /* exploding shell characters */
-#define CENTER  '#'
+#define CENTER  ' '
 #define DIAG_R  '/'
 #define DIAG_L  '\\'
 #define SIDE    '-'
 #define TOP_BOT '|'
-#define SHELL   '+'
+#define SHELL   ACS_DIAMOND
+
+
 
 /* structure for explosions */
 struct {
@@ -60,9 +65,21 @@ static int col_3;    /* column for cpu cycle count*/
 
 /* init_disp - initialize display */
 
-init_disp()
+void init_disp(void)
 {
   initscr();
+  /* color */
+  start_color();
+  init_pair(1 , (short)A_BOLD | COLOR_BLACK,  COLOR_RED    );
+  init_pair(2 , COLOR_BLACK,  COLOR_GREEN  );
+  init_pair(3 , COLOR_BLACK,  COLOR_YELLOW );
+  init_pair(4 , COLOR_BLACK,  COLOR_BLUE   );
+  init_pair(5 , COLOR_RED,    COLOR_BLACK  );
+  init_pair(6 , COLOR_GREEN,  COLOR_BLACK  );
+  init_pair(7 , COLOR_YELLOW, COLOR_BLACK  );
+  init_pair(8 , COLOR_BLUE,   COLOR_BLACK  );
+
+  curs_set(0);
   clear();
   crmode();
   noecho();
@@ -73,19 +90,20 @@ init_disp()
 
 /* end_disp - cleanup and end display */
 
-end_disp()
+void end_disp(void)
 {
   nocrmode();
   echo();
   nl();
   refresh();
   endwin();
+  curs_set(1);
 }
 
 
 /* draw_field - draws the playing field and status boxes */
 
-draw_field()
+void draw_field(void)
 {
   int i, j;
 
@@ -120,29 +138,13 @@ draw_field()
 
   /* status boxes -- CAUTION: this is dependent on MAXROBOTS */
   for (i = 0; i < MAXROBOTS; i++) {
-    move(5*i+0,COLS-STAT_WID);
-    printw(" %1d %-14s",i+1,robots[i].name);
-    move(5*i+1,COLS-STAT_WID);
-    printw("  D%%       Sc    ");
-    move(5*i+2,COLS-STAT_WID);
-    printw("  Sp       Hd    ");
-/*
-    move(5*i+3,COLS-STAT_WID);
-    printw("  X=       Y=    ");
-*/
-    if (i < MAXROBOTS-1) {
-      move(5*i+4,COLS-STAT_WID);
-      for (j = 0; j < 19; j++)
-	addch(HORZ);
-    }
+    move(5*i+1,COLS-STAT_WID+1);
+    attron(COLOR_PAIR(i+1));addch('1'+i);attroff(COLOR_PAIR(i+1));
+    printw(" %-14s",robots[i].name);
   }
+  
   move(LINES-1,COLS-STAT_WID);
   printw(" CPU Cycle:       ");
-
-  /* init columns for damage, speed; scan, heading */
-  col_1 = COLS - STAT_WID + 5;
-  col_2 = COLS - STAT_WID + 14;
-  col_3 = COLS - STAT_WID + 11;
 
   refresh();
   
@@ -152,9 +154,7 @@ draw_field()
 
 /* plot_robot - plot the robot position */
 
-plot_robot(n)
-
-int n;
+void plot_robot(int n)
 {
   int i, k;
   register int new_x, new_y;
@@ -183,7 +183,9 @@ int n;
         addch(' ');
       }
       move(new_y,new_x);
+      attron(COLOR_PAIR(n+1));
       addch(n+'1');  /* ASCII dependent */
+      attroff(COLOR_PAIR(n+1));
       refresh();
       robots[n].last_x = new_x;
       robots[n].last_y = new_y;
@@ -193,11 +195,7 @@ int n;
 
 
 /* plot_miss - plot the missile position */
-
-plot_miss(r,n)
-
-int r;
-int n;
+void plot_miss(int r, int n)
 {
   int i, k;
   register int new_x, new_y;
@@ -230,7 +228,9 @@ int n;
         addch(' ');
       }
       move(new_y,new_x);
+      attron(COLOR_PAIR(MAXROBOTS + r + 1));
       addch(SHELL);
+      attroff(COLOR_PAIR(MAXROBOTS + r + 1));
       refresh();
       missiles[r][n].last_xx = new_x;
       missiles[r][n].last_yy = new_y;
@@ -242,10 +242,7 @@ int n;
 
 /* plot_exp - plot the missile exploding */
 
-plot_exp(r,n)
-
-int r;
-int n;
+void plot_exp(int r, int n)
 {
   int c, i, p, hold_x, hold_y, k;
   register int new_x, new_y;
@@ -311,37 +308,32 @@ int n;
 
 
 /* robot_stat - update status info */
-
-robot_stat(n)
-
-int n;
+void robot_stat(int n)
 {
   int changed = 0;
+  int d,i;
 
   if (robots[n].last_damage != robots[n].damage) {
+    d=robots[n].damage*(STAT_WID-2)/100;
+
+    move(5*n+2,COLS-STAT_WID+1);
+    for(i=0; i < (STAT_WID-2 - d); i++) {
+      addch(ACS_HLINE);
+    }
+    for(; i < STAT_WID-2; i++) {
+      addch(' ');
+    }
+    move(5*n+3,COLS-STAT_WID+1);
+    printw("%03d",robots[n].damage);
+
     robots[n].last_damage = robots[n].damage;
-    move(5*n+1,col_1);
-    printw("%03d",robots[n].last_damage);
     changed = 1;
   }
-  if (robots[n].last_scan != robots[n].scan) {
-    robots[n].last_scan = robots[n].scan;
-    move(5*n+1,col_2);
-    printw("%03d",robots[n].last_scan);
-    changed = 1;
-  }
-  if (robots[n].last_speed != robots[n].speed) {
-    robots[n].last_speed = robots[n].speed;
-    move(5*n+2,col_1);
-    printw("%03d",robots[n].speed);
-    changed = 1;
-  }
-  if (robots[n].last_heading != robots[n].heading) {
-    robots[n].last_heading = robots[n].heading;
-    move(5*n+2,col_2);
-    printw("%03d",robots[n].heading);
-    changed = 1;
-  }
+
+  move(5*n+3,COLS-STAT_WID+5);
+  printw("(%3d,",robots[n].x / CLICK);
+  printw("%3d)",robots[n].y / CLICK);
+
 
 /*
   move(5*n+3,col_1);
@@ -355,11 +347,9 @@ int n;
 }
 
 
-show_cycle(l)
-
-long l;
+void show_cycle(long l)
 {
-  move(LINES-1,col_3);
+  move(LINES-1,COLS-7);
   printw("%7ld",l);
   refresh();
 }
