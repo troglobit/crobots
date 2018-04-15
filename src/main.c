@@ -680,34 +680,35 @@ void free_robot(int i)
 /* catch_int - catch the interrupt signal and die, cleaning screen */
 void catch_int(int i)
 {
-/* 
-  for (i = 0; i < MAXROBOTS; i++) {
-    cur_robot = &robots[i];
-      printf("\nrobot: %d",i);
-      printf("\tstatus......%d",cur_robot->status);
-      printf("\nx...........%5d",cur_robot->x);
-      printf("\ty...........%5d",cur_robot->y);
-      printf("\norg_x.......%5d",cur_robot->org_x);
-      printf("\torg_y.......%5d",cur_robot->org_y);
-      printf("\nrange.......%5d",cur_robot->range);
-      printf("\tspeed.......%5d",cur_robot->speed);
-      printf("\nd_speed.....%5d",cur_robot->d_speed);
-      printf("\theading.....%5d",cur_robot->heading);
-      printf("\nd_heading...%5d",cur_robot->d_heading);
-      printf("\tdamage......%5d",cur_robot->damage);
-      printf("\nmiss[0]stat.%5d",missiles[cur_robot-&robots[0]][0].stat);
-      printf("\tmiss[1]stat.%5d",missiles[cur_robot-&robots[0]][1].stat);
-      printf("\nmiss[0]head.%5d",missiles[cur_robot-&robots[0]][0].head);
-      printf("\tmiss[1]head.%5d",missiles[cur_robot-&robots[0]][1].head);
-      printf("\nmiss[0]x....%5d",missiles[cur_robot-&robots[0]][0].cur_x);
-      printf("\tmiss[1]y....%5d",missiles[cur_robot-&robots[0]][1].cur_y);
-      printf("\nmiss[0]dist.%5d",missiles[cur_robot-&robots[0]][0].curr_dist);
-      printf("\tmiss[1]dist.%5d",missiles[cur_robot-&robots[0]][1].curr_dist);
-      printf("\n\n");
-  }
-*/
   if (!r_debug)
     end_disp();
+
+  for (i = 0; i < MAXROBOTS; i++) {
+    cur_robot = &robots[i];
+    printf("\nrobot: %d",i);
+    printf("\tstatus......%d",cur_robot->status);
+    printf("\nx...........%5d",cur_robot->x);
+    printf("\ty...........%5d",cur_robot->y);
+    printf("\norg_x.......%5d",cur_robot->org_x);
+    printf("\torg_y.......%5d",cur_robot->org_y);
+    printf("\nrange.......%5d",cur_robot->range);
+    printf("\tspeed.......%5d",cur_robot->speed);
+    printf("\nd_speed.....%5d",cur_robot->d_speed);
+    printf("\theading.....%5d",cur_robot->heading);
+    printf("\nd_heading...%5d",cur_robot->d_heading);
+    printf("\tdamage......%5d",cur_robot->damage);
+    printf("\nmiss[0]stat.%5d",missiles[cur_robot-&robots[0]][0].stat);
+    printf("\tmiss[1]stat.%5d",missiles[cur_robot-&robots[0]][1].stat);
+    printf("\nmiss[0]head.%5d",missiles[cur_robot-&robots[0]][0].head);
+    printf("\tmiss[1]head.%5d",missiles[cur_robot-&robots[0]][1].head);
+    printf("\nmiss[0]x....%5d",missiles[cur_robot-&robots[0]][0].cur_x);
+    printf("\tmiss[1]y....%5d",missiles[cur_robot-&robots[0]][1].cur_y);
+    printf("\nmiss[0]dist.%5d",missiles[cur_robot-&robots[0]][0].curr_dist);
+    printf("\tmiss[1]dist.%5d",missiles[cur_robot-&robots[0]][1].curr_dist);
+    printf("\n\n");
+  }
+  fflush(stdout);
+
   exit(0);
 }
 
