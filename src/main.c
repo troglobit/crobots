@@ -1,5 +1,3 @@
-
-
 /*****************************************************************************/
 /*                                                                           */
 /*  CROBOTS                                                                  */
@@ -31,9 +29,6 @@
 #include "motion.h"
 #include "screen.h"
 
-
-
-
 /* files declared in compiler.h */
 FILE *f_in;
 FILE *f_out;
@@ -52,6 +47,41 @@ void match(int m, long l, char *f[], int n);
 void play(char *f[], int n);
 void free_robot(int i);
 void rand_pos(int n);
+
+static int usage(int rc)
+{
+  fprintf(stderr,
+	  "Usage:\n"
+	  "  crobots [options] robot1.r [robotN.r] [>file]\n"
+	  "\n"
+	  "Options:\n"
+	  "  -c        Compile only, produce virtual machine assembler code and\n"
+	  "            symbol tables\n"
+	  "\n"
+	  "  -d        Compile one program, then invoke machine level single step\n"
+	  "            tracing (debugger)\n"
+	  "\n"
+	  "  -m NUM    Run a series of matches, were N is the number of matches.\n"
+          "            If '-m' is not specified, the default is to run one match\n"
+	  "            and display the realtime battlefield\n"
+	  "\n"
+	  "  -l NUM    Limit the number of machine CPU cycles per match when '-m'\n"
+          "            is specified.  The defaul cycle limit is 500,000\n"
+	  "\n"
+	  "Arguments:\n"
+	  "  robotN.r  The file name of the CROBOTS source program(s).  Up to four\n"
+	  "            robots may be specified.  If only one file is specified, it\n"
+	  "            will be \"cloned\" into another, so that two robots (running\n"
+	  "            the same program) will compete.  Any file name may be used,\n"
+	  "            but for consistency use '.r' as the extension\n"
+	  "\n"
+	  "  [>file]   Use DOS 2.0+ redirection to get a compile listing (with '-c')\n"
+	  "            or to record matches (with '-m option)\n"
+	  "\n"
+	  );
+
+  return rc;
+}
 
 
 int main(int argc,char *argv[])
@@ -88,6 +118,9 @@ int main(int argc,char *argv[])
         case 'D':
           debug_only = 1;
 	  break;
+
+        case 'h':
+	  return usage(0);
 
 	/* limit number of cycles in a match */
 	case 'l':
