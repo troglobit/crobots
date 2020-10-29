@@ -1,0 +1,5 @@
+*.o
+grammar.c
+lexicon.c
+tokens.h
+crobots
