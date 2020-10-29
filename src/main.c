@@ -77,18 +77,6 @@ int main(int argc,char *argv[])
 
       switch (argv[i][1]) {
        
-	/* limit number of cycles in a match */
-	case 'l':
-	case 'L':
-	  limit = atol((argv[i])+2);
-	  break;
-
-	/* run multiple matches */
-        case 'm':
-        case 'M':
-	  matches = atoi((argv[i])+2);
-	  break;
-	   
 	/* compile only flag */
         case 'c':
         case 'C':
@@ -99,6 +87,18 @@ int main(int argc,char *argv[])
         case 'd':
         case 'D':
           debug_only = 1;
+	  break;
+
+	/* limit number of cycles in a match */
+	case 'l':
+	case 'L':
+	  limit = atol((argv[i])+2);
+	  break;
+
+	/* run multiple matches */
+        case 'm':
+        case 'M':
+	  matches = atoi((argv[i])+2);
 	  break;
 
         case 'v':
