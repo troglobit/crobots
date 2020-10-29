@@ -21,8 +21,8 @@ compiled and loaded into separate robots, the battle is observed.
 Robots moving, missiles flying and exploding, and certain status
 information are displayed on the screen, in real-time.
 
-CROBOTS is distributed under terms of the GNU General Public License,
-version 2.
+CROBOTS started out as DOS shareware, but is, as of Oct 23 2013, free
+software under terms of the GNU General Public License, version 2.
 
 
 Intended audience
@@ -46,12 +46,10 @@ command line.
 Origin & References
 -------------------
 
-This is the source code of the original [CROBOTS][] game, written by Tom
-Poindexter in 1985.  Please don't bother Tom with email or patches, he
-will patches **not** be updating CROBOTS any more.
+This is the original CROBOTS game, written by Tom Poindexter in 1985.
+Ported to Linux by Pablo Algar in 2018.  Please don't bother Tom with
+email or patches, he will probably **not** be updating CROBOTS any more.
 
 If you like, you can instead send patches or GitHub pull requests to
 this project.  It is the logical continuation of the project and has the
 explicit goal of gathering (sane) patches from all forks out there.
-
-[CROBOTS]:  https://tpoindex.github.io/crobots/
