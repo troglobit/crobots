@@ -10,7 +10,7 @@
 /*****************************************************************************/
 
 /* main.c - top level controller */
-
+#include "config.h"
 
 /* INIT causes externals in crobots.h to have storage, & init intrinsic table */
 #define INIT 1 
@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+
 /* crobots includes */
 #include "crobots.h"
 #include "compiler.h"
@@ -62,7 +63,7 @@ int main(int argc,char *argv[])
   int i;
   int num_robots = 0;
   char *files[MAXROBOTS];
-  char *prog;
+  char *prog = PACKAGE;
   char *strrchr();   /* this is rindex in some compilers */
   unsigned seed;
   long time();
@@ -74,12 +75,15 @@ int main(int argc,char *argv[])
   /* print version, copyright notice, GPL notice */
 
   fprintf(stderr,"\n");
-  fprintf(stderr,"CROBOTS - version 1.1, December, 1985\n");
+  fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
+  fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
   fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
-  fprintf(stderr,"\n     CROBOTS - fighting robots C compiler and virtual computer\n");
-  fprintf(stderr,"       distributed under the GNU GPL, version 2.\n");
+  fprintf(stderr,"\n"
+	  "CROBOTS - fighting robots C compiler and virtual computer\n");
+  fprintf(stderr,
+	  "          distributed under the GNU GPL, version 2.\n");
   fprintf(stderr,"\n");
-  fprintf(stderr,"Press <enter> to continue......");
+  fprintf(stderr,"Press <enter> to continue ...");
   getchar();
   fprintf(stderr,"\n");
 
@@ -94,8 +98,6 @@ int main(int argc,char *argv[])
   cur_time = time((long *) 0);
   seed = (unsigned) (cur_time & 0x0000ffffL);
   srand(seed);
-
-  prog = "crobots";
 
   /* parse the command line */
   for (i = 1; --argc; i++) {
