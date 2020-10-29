@@ -22,3 +22,22 @@ AC_SEARCH_LIBS(initscr, curses)
 AC_SEARCH_LIBS([cos], [m])
 
 AC_OUTPUT
+
+DOCDIR=`eval echo $docdir`
+DOCDIR=`eval echo $DOCDIR`
+cat <<EOF
+
+------------------ Summary ------------------
+ $PACKAGE_NAME version $PACKAGE_VERSION
+  Prefix................: $prefix
+  Docdir................: $DOCDIR
+  C Compiler............: $CC $CFLAGS $CPPFLAGS $LDFLAGS $LIBS
+
+------------- Compiler version --------------
+$($CC --version || true)
+---------------------------------------------
+
+Check the above options and compile with:
+ ${MAKE-make}
+
+EOF
