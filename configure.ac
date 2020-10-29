@@ -14,4 +14,11 @@ AM_PROG_LEX
 
 AC_HEADER_STDC
 
+# Check for curses/ncurses compatible library
+AC_CHECK_HEADERS([curses.h])
+AC_SEARCH_LIBS(initscr, curses)
+
+# Check for a common math function in -lm
+AC_SEARCH_LIBS([cos], [m])
+
 AC_OUTPUT
