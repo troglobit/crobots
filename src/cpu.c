@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "crobots.h"
-#include "tokens.h"
+#include "grammar.h"
 #include "compiler.h"
 #include "cpu.h"
 

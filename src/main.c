@@ -22,13 +22,13 @@
 #include <string.h>
 #include <signal.h>
 /* crobots includes */
-#include"crobots.h"
-#include"compiler.h"
-#include"display.h"
-#include"tokens.h"
-#include"cpu.h"
-#include"motion.h"
-#include"screen.h"
+#include "crobots.h"
+#include "compiler.h"
+#include "display.h"
+#include "grammar.h"
+#include "cpu.h"
+#include "motion.h"
+#include "screen.h"
 
 
 

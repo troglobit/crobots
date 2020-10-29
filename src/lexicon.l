@@ -14,7 +14,7 @@ L			[a-zA-Z_]
 
 /* lexical analyzer for crobots */
 
-#include "tokens.h"
+#include "grammar.h"
 #include "crobots.h"
 #include "compiler.h"
 
