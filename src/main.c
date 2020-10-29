@@ -69,35 +69,6 @@ int main(int argc,char *argv[])
   long time();
   long atol();
   long cur_time;
-  //int srand();
-
-
-  /* print version, copyright notice, GPL notice */
-
-  fprintf(stderr,"\n");
-  fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
-  fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
-  fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
-  fprintf(stderr,"\n"
-	  "CROBOTS - fighting robots C compiler and virtual computer\n");
-  fprintf(stderr,
-	  "          distributed under the GNU GPL, version 2.\n");
-  fprintf(stderr,"\n");
-  fprintf(stderr,"Press <enter> to continue ...");
-  getchar();
-  fprintf(stderr,"\n");
-
-  /* init robots */
-  for (i = 0; i < MAXROBOTS; i++) {
-    init_robot(i);
-    robots[i].name[0] = '\0';
-  }
-
-
-  /* seed the random number generator */
-  cur_time = time((long *) 0);
-  seed = (unsigned) (cur_time & 0x0000ffffL);
-  srand(seed);
 
   /* parse the command line */
   for (i = 1; --argc; i++) {
@@ -164,6 +135,33 @@ int main(int argc,char *argv[])
     fprintf(stderr,"%s: no robot source files\n",prog);
     exit(1);
   }
+
+  /* print version, copyright notice, GPL notice */
+
+  fprintf(stderr,"\n");
+  fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
+  fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
+  fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
+  fprintf(stderr,"\n"
+	  "CROBOTS - fighting robots C compiler and virtual computer\n");
+  fprintf(stderr,
+	  "          distributed under the GNU GPL, version 2.\n");
+  fprintf(stderr,"\n");
+  fprintf(stderr,"Press <enter> to continue ...");
+  getchar();
+  fprintf(stderr,"\n");
+
+  /* init robots */
+  for (i = 0; i < MAXROBOTS; i++) {
+    init_robot(i);
+    robots[i].name[0] = '\0';
+  }
+
+
+  /* seed the random number generator */
+  cur_time = time((long *) 0);
+  seed = (unsigned) (cur_time & 0x0000ffffL);
+  srand(seed);
 
   /* now, figure out what to do */
 
