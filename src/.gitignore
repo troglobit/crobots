@@ -1,5 +1,9 @@
 *.o
-grammar.c
-lexicon.c
-tokens.h
+.deps/
+config.h
+config.h.in
 crobots
+grammar.c
+grammar.h
+lexicon.c
+stamp-h1
