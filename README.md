@@ -1,5 +1,6 @@
 The Original C Robots Programming Game
 ======================================
+<img align="right" src="doc/crobots.png">
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
