@@ -5,8 +5,7 @@ OBJS =  main.o grammar.o lexicon.o compiler.o cpu.o library.o display.o screen.o
 SOURCES = crobots.h compiler.h tokens.h main.c grammar.y grammar.c lexicon.l lexicon.c compiler.c cpu.c library.c display.c screen.c screend.c motion.c
 
 
-CFLAGS = -O -DUNIX -g -ggdb
-#LIBS = -lm -lcurses -ltermlib
+CFLAGS = -O2 -g -ggdb
 LIBS = -lm -lcurses
 
 crobots: 	$(OBJS)

@@ -95,11 +95,7 @@ int main(int argc,char *argv[])
   seed = (unsigned) (cur_time & 0x0000ffffL);
   srand(seed);
 
-#ifdef UNIX
-  prog = argv[0];
-#else
   prog = "crobots";
-#endif
 
   /* parse the command line */
   for (i = 1; --argc; i++) {
@@ -681,7 +677,6 @@ void free_robot(int i)
 }
 
 
-#ifdef UNIX
 /* catch_int - catch the interrupt signal and die, cleaning screen */
 void catch_int(int i)
 {
@@ -715,8 +710,5 @@ void catch_int(int i)
     end_disp();
   exit(0);
 }
-#endif
-
-
 
 /* end of main.c */
