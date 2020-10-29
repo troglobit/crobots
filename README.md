@@ -1,6 +1,5 @@
 The Original C Robots Programming Game
 ======================================
-<img align="right" src="doc/crobots.png">
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
@@ -12,6 +11,8 @@ seek out, track, and destroy other robots, each running different
 programs.  Each robot is equally equipped, and up to four robots may
 compete at once.  CROBOTS is best played among several people, each
 refining their own robot program, then matching program against program.
+
+![C robots action screenshot](doc/crobots.png)
 
 CROBOTS consists of a C compiler, a virtual computer, and battlefield
 display (text graphics only, monochrome or color).  The CROBOTS compiler
