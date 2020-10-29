@@ -130,6 +130,10 @@ int main(int argc,char *argv[])
           debug_only = 1;
 	  break;
 
+        case 'v':
+		fprintf(stderr, "%s\n", PACKAGE_STRING);
+		return 0;
+
 	default:
 	  break;
       }
