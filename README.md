@@ -1,7 +1,7 @@
-CROBOTS
-=======
+The Original C Robots Programming Game
+======================================
 
-[CROBOTS][] ("see-robots") is a game based on computer programming.
+CROBOTS ("see-robots") is a game based on computer programming.
 
 Unlike arcade type games which require human inputs controlling some
 object, all strategy in CROBOTS must be complete before the actual game
