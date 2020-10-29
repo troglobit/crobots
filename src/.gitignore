@@ -5,5 +5,5 @@ config.h.in
 crobots
 grammar.c
 grammar.h
-lexicon.c
+lexer.c
 stamp-h1
