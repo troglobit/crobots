@@ -1,5 +1,5 @@
 SUBDIRS           = doc examples src
-dist_doc_DATA     = README.md LICENSE crobots.txt
+dist_doc_DATA     = README.md LICENSE
 
 ## Check if tagged in git
 release-hook:
