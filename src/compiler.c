@@ -157,16 +157,18 @@ int reset_comp(void)
   int mainfunc = 0;
   s_func *chain;
   int good = 1;
+  int warnings = 0;
   int ext_size;
 
   /* check for too many intructions */
   if (num_instr == CODESPACE) {
-    fprintf(f_out,"\n** Error ** instruction space exceeded\n");
+    fprintf(f_out, "\n  ** Error: instruction space exceeded!\n");
     r_flag = 1;
-    if (r_debug)
-      fprintf(f_out,"\n\n**reset_comp**\n\n");
     good = 0;
   }
+
+  fprintf(f_out, "  code utilization: %3d%%   (%4d / %4d)\n",
+	  (int) (((long) num_instr) * 100L / CODESPACE) ,num_instr,CODESPACE);
 
   /* check func_tab to code_list for missing functions (accept intrinsics) */
   /* this ensures no functions are referenced that are not coded or intrinsic */
@@ -189,36 +191,33 @@ int reset_comp(void)
     }
 
     /* make sure that a main was declared */
-    if (strcmp("main",(func_tab + (i * ILEN))) == 0)
+    if (strcmp("main", (func_tab + (i * ILEN))) == 0)
       mainfunc = 1;
 
     if (!found) {
-      fprintf(f_out,
-   "\n** Error ** '%s (%d)' function referenced, but not defined or intrinsic\n",
-	(func_tab + (i * ILEN)),i);
-      good =0;
+      fprintf(f_out, "  ** Error: function '%s (%d)' referenced, but not defined or intrinsic!\n",
+	      (func_tab + (i * ILEN)), i);
+      good = 0;
       r_flag = 1;
-      if (r_debug)
-        fprintf(f_out,"\n\n**reset_comp**\n\n");
     }
   }
 
   if (!mainfunc) {
-    fprintf(f_out,"\n** Error ** 'main' not defined\n");
+    fprintf(f_out, "  ** Error: 'main()' not defined!\n");
     good = 0;
     r_flag = 1;
-    if (r_debug)
-      fprintf(f_out,"\n\n**reset_comp**\n\n");
   }
 
-  if (undeclared > 0)
-    fprintf(f_out,"\n** Warning ** %d undeclared variables\n",undeclared);
+  if (undeclared > 0) {
+    fprintf(f_out, "  ** Warning: %d undeclared variables!\n", undeclared);
+    warnings++;
+  }
 
-  if (postfix > 0)
-    fprintf(f_out,"\n** Warning ** %d postfix operators\n",postfix);
+  if (postfix > 0) {
+    fprintf(f_out, "  ** Warning: %d postfix operators, treated as prefix operators!\n" ,postfix);
+    warnings++;
+  }
 
-  fprintf(f_out,"\nCode utilization: %d%%   (%d / %d) \n",
-	  (int) (((long) num_instr) * 100L / CODESPACE) ,num_instr,CODESPACE);
   fflush(f_out);
 
   /* clean up compiler tables and flags */
@@ -246,7 +245,11 @@ int reset_comp(void)
     cur_robot->status = ACTIVE;
     instruct->ins_type = NOP;
   }
-  return (good);
+
+  if (!good || warnings)
+    puts("");
+
+  return good;
 }
 
 

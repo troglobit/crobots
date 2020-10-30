@@ -102,6 +102,7 @@ int main(int argc,char *argv[])
   int matches = 0;
   int comp_only = 0;
   int debug_only = 0;
+  int ignored = 0;
   int i;
   int num_robots = 0;
   char *files[MAXROBOTS];
@@ -179,6 +180,7 @@ int main(int argc,char *argv[])
 	}
       } else {
 	fprintf(stderr, "%s: extra robot `%s', ignored.\n", prog, argv[i]);
+	ignored++;
       }
     }
   }
@@ -189,9 +191,11 @@ int main(int argc,char *argv[])
     exit(1);
   }
 
+  if (ignored)
+    puts("");
+
   /* print version, copyright notice, GPL notice */
   if (r_interactive) {
-    fprintf(stderr,"\n");
     fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
     fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
     fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
@@ -233,7 +237,7 @@ int main(int argc,char *argv[])
 
   /* if only one robot, make it fight itself */
   if (num_robots < 2) {
-	  fprintf(stderr,"%s: only one robot?, cloning a second from %s.\n",
+	  fprintf(stderr,"%s: only one robot?  Cloning a second from %s.\n",
 		  prog,files[0]);
 	  num_robots++;
 	  files[1] = files[0];
@@ -261,7 +265,13 @@ int comp(char *f[], int n)
   int i;
 
   for (i = 0; i < n; i++) {
-    fprintf(f_out, "Compiling robot source: %s\n\n", f[i]);
+    s = strrchr(f[i],'/');
+    if (s)
+      s++;
+    else
+      s = f[i];
+
+    fprintf(f_out, "Compiling %-20s", s);
     f_in = fopen(f[i], "r");
 
     /* compile the robot */
@@ -276,23 +286,15 @@ int comp(char *f[], int n)
 
     /* check r_flag for compile errors */
     if (r_flag) {
-      fprintf(stdout,"\n%s could not compile\n\n",f[i]);
+      fprintf(stdout,"  ** Faulty robot, skipping!\n");
       free_robot(num);
     } else {
-      fprintf(stdout,"\n%s compiled without errors\n\n",f[i]);
-
-      /* get last part of file name */
-      s = strrchr(f[i],'/');
-      if (s)
-	      s++;
-      else
-	      s = f[i];
       strcpy(robots[num].name, s);
       num++;
     }
 
     if (r_interactive && i < n-1) {
-      fprintf(stdout,"\n\n\nPress <enter> to continue.\n");
+      fprintf(stdout,"\n\nPress <enter> to continue.\n");
       getchar();
     }
   }
