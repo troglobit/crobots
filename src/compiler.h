@@ -98,7 +98,7 @@ int echop(void);
 int eframe(void);
 int new_if(void);
 int else_part(void);
-int close_if(void);
+void close_if(void);
 int new_while(void);
 int while_expr(void);
 int close_while(void);
