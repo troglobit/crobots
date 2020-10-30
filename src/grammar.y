@@ -148,9 +148,8 @@ postfix_expr
 		if (!econst(1L))
 		  return(1);
 		if ((work = findvar(last_ident,var_tab)) == -1) {
-		  if ((work = findvar(last_ident,ext_tab)) == -1) {
+		  if ((work = findvar(last_ident,ext_tab)) == -1)
 		    work = allocvar(last_ident,var_tab);
-		  }
 		  else
 		    work |= EXTERNAL;
 		}
@@ -180,9 +179,8 @@ unary_expr
 		if (!econst(1L))
 		  return(1);
 		if ((work = findvar(last_ident,var_tab)) == -1) {
-		  if ((work = findvar(last_ident,ext_tab)) == -1) {
+		  if ((work = findvar(last_ident,ext_tab)) == -1)
 		    work = allocvar(last_ident,var_tab);
-		  }
 		  else
 		    work |= EXTERNAL;
 		}
@@ -194,9 +192,8 @@ unary_expr
 		if (!econst(1L))
 		  return(1);
 		if ((work = findvar(last_ident,var_tab)) == -1) {
-		  if ((work = findvar(last_ident,ext_tab)) == -1) {
+		  if ((work = findvar(last_ident,ext_tab)) == -1)
 		    work = allocvar(last_ident,var_tab);
-		  }
 		  else
 		    work |= EXTERNAL;
 		}
@@ -391,9 +388,8 @@ assignment_expr
 		/* func_ident used as temp storage */
 		popid(func_ident,var_stack,&var_off); /* note ptr to off */
 		if ((work = findvar(func_ident,var_tab)) == -1) {
-		  if ((work = findvar(func_ident,ext_tab)) == -1) {
+		  if ((work = findvar(func_ident,ext_tab)) == -1)
 		    work = allocvar(func_ident,var_tab);
-		  }
 		  else
 		    work |= EXTERNAL;
 		}
