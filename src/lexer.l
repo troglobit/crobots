@@ -131,7 +131,8 @@ void count(void)
 		else
 			column++;
 
-	ECHO;
+	if (r_debug)
+		ECHO;
 }
 
 
