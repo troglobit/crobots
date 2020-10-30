@@ -221,35 +221,28 @@ int main(int argc,char *argv[])
   /* compile only */
   if (comp_only) {
     comp(files,num_robots);
+    exit(0);
   }
-  else {
-    /* debug the first robot listed */
-    if (debug_only) {
-      trace(files[0]); /* trace only first source */
-    }
-    else {
-      /* run a series of matches */
-      if (matches != 0) {
-	if (num_robots < 2) {	/* if only one robot, make it fight itself */
+
+  /* debug the first robot listed */
+  if (debug_only) {
+    trace(files[0]); /* trace only first source */
+    exit(0);
+  }
+
+  /* if only one robot, make it fight itself */
+  if (num_robots < 2) {
 	  fprintf(stderr,"%s: only one robot?, cloning a second from %s.\n",
 		  prog,files[0]);
 	  num_robots++;
 	  files[1] = files[0];
-	}
-	match(matches,limit,files,num_robots);
-      }
-      else {
-	/* play with full display */
-	if (num_robots < 2) {
-	  fprintf(stderr,"%s: only one robot?, cloning a second from %s.\n",
-		  prog,files[0]);
-	  num_robots++;
-	  files[1] = files[0];
-	}
-	play(files,num_robots);
-      }
-    }
   }
+
+  /* run a series of matches */
+  if (matches != 0)
+    match(matches,limit,files,num_robots);
+  else
+    play(files,num_robots);
 
   if (r_stats)
     robot_stats();
