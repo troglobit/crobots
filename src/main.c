@@ -32,7 +32,8 @@ s_robot *cur_robot,		/* current robot */
         robots[MAXROBOTS];	/* all robots */
 
 int r_debug,			/* debug switch */
-    r_flag;			/* global flag for push/pop errors */
+    r_flag,			/* global flag for push/pop errors */
+    r_interactive;		/* enable classic 'Press <enter> to continue */
 
 FILE *f_in;			/* the compiler input source file */
 FILE *f_out;			/* the compiler diagnostic file, assumed opened */
@@ -63,6 +64,8 @@ static int usage(int rc)
 	  "            tracing (debugger)\n"
 	  "\n"
 	  "  -h        This help text\n"
+	  "\n"
+	  "  -i        Interactive mode, show code output and 'Press <enter> ..'\n"
 	  "\n"
 	  "  -m NUM    Run a series of matches, were N is the number of matches.\n"
           "            If '-m' is not specified, the default is to run one match\n"
@@ -127,6 +130,10 @@ int main(int argc,char *argv[])
         case 'h':
 	  return usage(0);
 
+	case 'i':
+	  r_interactive = 1;
+	  break;
+
 	/* limit number of cycles in a match */
 	case 'l':
 	case 'L':
@@ -175,19 +182,20 @@ int main(int argc,char *argv[])
   }
 
   /* print version, copyright notice, GPL notice */
-
-  fprintf(stderr,"\n");
-  fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
-  fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
-  fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
-  fprintf(stderr,"\n"
-	  "CROBOTS - fighting robots C compiler and virtual computer\n");
-  fprintf(stderr,
-	  "          distributed under the GNU GPL, version 2.\n");
-  fprintf(stderr,"\n");
-  fprintf(stderr,"Press <enter> to continue ...");
-  getchar();
-  fprintf(stderr,"\n");
+  if (r_interactive) {
+    fprintf(stderr,"\n");
+    fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
+    fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
+    fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
+    fprintf(stderr,"\n"
+	    "CROBOTS - fighting robots C compiler and virtual computer\n");
+    fprintf(stderr,
+	    "          distributed under the GNU GPL, version 2.\n");
+    fprintf(stderr,"\n");
+    fprintf(stderr,"Press <enter> to continue ...");
+    getchar();
+    fprintf(stderr,"\n");
+  }
 
   /* init robots */
   for (i = 0; i < MAXROBOTS; i++) {
@@ -267,7 +275,7 @@ void comp(char *f[], int n)
     } else {
       fprintf(stdout,"\n%s compiled without errors\n\n",f[i]);
     }
-    if (i < n-1) {
+    if (r_interactive && i < n-1) {
       fprintf(stdout,"\n\n\nPress <enter> to continue.\n");
       getchar();
     }
@@ -320,8 +328,11 @@ void play(char *f[], int n)
       robot_go(&robots[num_robots]);
       num_robots++;
     }
-    fprintf(stdout,"\n\nPress <enter> to continue.\n");
-    getchar();
+
+    if (r_interactive) {
+      fprintf(stdout,"\n\nPress <enter> to continue.\n");
+      getchar();
+    }
   }
 
   if (num_robots < 2) {
