@@ -43,7 +43,7 @@ FILE *f_out;			/* the compiler diagnostic file, assumed opened */
 void catch_int(int);
 
 /* high level functions */
-void comp(char *f[], int n);
+int comp(char *f[], int n);
 void play(char *f[], int n);
 void match(int m, long l, char *f[], int n);
 void trace(char *f);
@@ -123,12 +123,14 @@ int main(int argc,char *argv[])
         case 'c':
         case 'C':
           comp_only = 1;
-	  break;
+          r_debug = 1;          /* turns on full compile info */
+          break;
 
 	/* debug one robot */
         case 'd':
         case 'D':
           debug_only = 1;
+          r_debug = 1;          /* turns on full compile info */
 	  break;
 
         case 'h':
@@ -217,6 +219,7 @@ int main(int argc,char *argv[])
   srand(seed);
 
   /* now, figure out what to do */
+  f_out = stdout;		/* override below */
 
   /* compile only */
   if (comp_only) {
@@ -253,22 +256,22 @@ int main(int argc,char *argv[])
 
 
 /* comp - only compile the files with full info */
-void comp(char *f[], int n)
+int comp(char *f[], int n)
 {
+  int num = 0;
+  char *s;
   int i;
 
-  f_out = stdout;
-  r_debug = 1;  /* turns on full compile info */
-
   for (i = 0; i < n; i++) {
-    fprintf(f_out,"Compiling robot source: %s\n\n",f[i]);
-    f_in = fopen(f[i],"r");
+    fprintf(f_out, "Compiling robot source: %s\n\n", f[i]);
+    f_in = fopen(f[i], "r");
 
     /* compile the robot */
     r_flag = 0;
-    cur_robot = &robots[i];
+    cur_robot = &robots[num];
+
     init_comp();	/* initialize the compiler */
-    yyin=f_in;
+    yyin = f_in;
     yyparse();		/* start compiling */
     reset_comp();	/* reset compiler and complete robot */
     fclose(f_in);
@@ -276,14 +279,27 @@ void comp(char *f[], int n)
     /* check r_flag for compile errors */
     if (r_flag) {
       fprintf(stdout,"\n%s could not compile\n\n",f[i]);
+      free_robot(num);
     } else {
       fprintf(stdout,"\n%s compiled without errors\n\n",f[i]);
+
+      /* get last part of file name */
+      s = strrchr(f[i],'/');
+      if (s)
+	      s++;
+      else
+	      s = f[i];
+      strcpy(robots[num].name, s);
+      num++;
     }
+
     if (r_interactive && i < n-1) {
       fprintf(stdout,"\n\n\nPress <enter> to continue.\n");
       getchar();
     }
   }
+
+  return num;
 }
 
 
@@ -296,53 +312,15 @@ void play(char *f[], int n)
   int movement;
   int i, j, k;
   long c = 0L;
-  char *s;
-  char *strrchr();  /* this is rindex in some implementations */
   
-  //f_out = fopen("/dev/null","w");
-  f_out=stdout;
-  r_debug = 0;  /* turns off full compile info */
-
-  for (i = 0; i < n; i++) {
-    fprintf(f_out,"Compiling robot source: %s\n\n",f[i]);
-    f_in = fopen(f[i],"r");
-
-    /* compile the robot */
-    r_flag = 0;
-    cur_robot = &robots[num_robots];
-
-    init_comp();	/* initialize the compiler */
-    yyin = f_in;
-    yyparse();		/* start compiling */
-    reset_comp();	/* reset compiler and complete robot */
-    fclose(f_in);
-
-    /* check r_flag for compile errors */
-    if (r_flag) {
-      fprintf(stdout,"\n %s could not compile\n",f[i]);
-      free_robot(num_robots);
-    } else {
-      fprintf(stdout,"\n %s compiled without errors\n",f[i]);
-      /* get last part of file name */
-      s = strrchr(f[i],'/');
-
-      if (s == (char *) NULL)
-        s = f[i];
-      strcpy(robots[num_robots].name,s);
-      robot_go(&robots[num_robots]);
-      num_robots++;
-    }
-
-    if (r_interactive) {
-      fprintf(stdout,"\n\nPress <enter> to continue.\n");
-      getchar();
-    }
-  }
-
+  num_robots = comp(f, n);
   if (num_robots < 2) {
     fprintf(stdout,"\n\nCannot play without at least 2 good robots.\n\n");
     exit(1);
   }
+
+  for (i = 0; i < num_robots; i++)
+      robot_go(&robots[i]);
 
   /* catch interrupt */
   if (signal(SIGINT,SIG_IGN) != SIG_IGN)
@@ -435,50 +413,13 @@ void match(int m, long l, char *f[], int n)
   int m_count;
   int movement;
   int i, j, k;
-  int wins[MAXROBOTS];
-  int ties[MAXROBOTS];
+  int wins[MAXROBOTS] = { 0 };
+  int ties[MAXROBOTS] = { 0 };
   long c;
-  char *s;
-  char *strrchr();  /* this is rindex in some implementations */
 
   f_out = fopen("/dev/null","w");
-  r_debug = 0;  /* turns off full compile info */
-
-  for (i = 0; i < n; i++) {
-    wins[i] = 0;
-    ties[i] = 0;
-    fprintf(stderr,"Compiling robot source: %s\n",f[i]);
-    f_in = fopen(f[i],"r");
-
-    /* compile the robot */
-    r_flag = 0;
-    cur_robot = &robots[num_robots];
-
-    /* compile the robot */
-    init_comp();
-    yyin=f_in;
-    yyparse();
-    reset_comp();
-    fclose(f_in);
-
-    /* check r_flag for compile errors */
-    if (r_flag) {
-      fprintf(stderr,"\n %s could not compile\n",f[i]);
-      free_robot(num_robots);
-    } else {
-      fprintf(stderr,"\n %s compiled without errors\n",f[i]);
-      /* get last part of file name */
-      s = strrchr(f[i],'/');
-
-      if (s == (char *) NULL)
-        s = f[i];
-      strcpy(robots[num_robots].name,s);
-      num_robots++;
-    }
-  }
-
+  num_robots = comp(f, n);
   fclose(f_out);
-
   if (num_robots < 2) {
     fprintf(stderr,"\n\nCannot play without at least 2 robots.\n\n");
     exit(1);
@@ -590,25 +531,10 @@ void trace(char *f)
 {
   int c = 1; 
 
-  r_debug = 1; /* turns on debugging in cpu */
-  f_in = fopen(f,"r");
-  f_out= stdout;
-
-  /* compile the robot */
-  r_flag = 0;
-  cur_robot = &robots[0];
-  init_comp();
-  yyin=f_in;
-  yyparse();
-  reset_comp();
-
-  /* check r_flag for compile errors */
-  if (r_flag) {
-    fprintf(stderr," %s could not compile\n",f);
+  if (!comp(&f, 1))
     exit(1);
-  }
-  else
-    robot_go(&robots[0]);
+
+  robot_go(&robots[0]);
 
   /* randomly place robot */
   robots[0].x = rand() % MAX_X * 100;
