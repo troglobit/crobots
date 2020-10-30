@@ -696,14 +696,13 @@ void decinstr(s_instr *code)
   switch (code->ins_type) {
     case FETCH:
       if (code->u.var1 & EXTERNAL) 
-	fprintf(f_out,"fetch   %hd external\n",code->u.var1 & ~EXTERNAL);
+	fprintf(f_out,"fetch   %hd external\n", (short)(code->u.var1 & ~EXTERNAL));
       else
-	fprintf(f_out,"fetch   %hd local\n",code->u.var1);
+	fprintf(f_out,"fetch   %hd local\n", code->u.var1);
       break;
     case STORE:
       if (code->u.a.var2 & EXTERNAL)
-	fprintf(f_out,"store   %hd external, ",
-		code->u.a.var2 & ~EXTERNAL);
+	fprintf(f_out,"store   %hd external, ", (short)(code->u.a.var2 & ~EXTERNAL));
       else
 	fprintf(f_out,"store   %hd local, ",code->u.a.var2);
       printop(code->u.a.a_op);
