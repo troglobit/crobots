@@ -195,7 +195,6 @@ int main(int argc,char *argv[])
     robots[i].name[0] = '\0';
   }
 
-
   /* seed the random number generator */
   cur_time = time((long *) 0);
   seed = (unsigned) (cur_time & 0x0000ffffL);
@@ -207,14 +206,12 @@ int main(int argc,char *argv[])
   if (comp_only) {
     comp(files,num_robots);
   }
-  else 
-
+  else {
     /* debug the first robot listed */
     if (debug_only) {
       trace(files[0]); /* trace only first source */
     }
-    else
-
+    else {
       /* run a series of matches */
       if (matches != 0) {
 	if (num_robots < 2) {	/* if only one robot, make it fight itself */
@@ -225,9 +222,8 @@ int main(int argc,char *argv[])
 	}
 	match(matches,limit,files,num_robots);
       }
-
-      /* play with full display */
       else {
+	/* play with full display */
 	if (num_robots < 2) {
 	  fprintf(stderr,"%s: only one robot?, cloning a second from %s.\n",
 		  prog,files[0]);
@@ -236,10 +232,11 @@ int main(int argc,char *argv[])
 	}
 	play(files,num_robots);
       }
-	
+    }
+  }
+
   /* all done */ 
   exit(0);
-
 }
 
 
