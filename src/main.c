@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <time.h>
 
 /* crobots includes */
 #include "crobots.h"
@@ -109,7 +110,6 @@ int main(int argc,char *argv[])
   char *prog = PACKAGE;
   char *strrchr();   /* this is rindex in some compilers */
   unsigned seed;
-  long time();
   long atol();
   long cur_time;
 
@@ -216,7 +216,7 @@ int main(int argc,char *argv[])
   }
 
   /* seed the random number generator */
-  cur_time = time((long *) 0);
+  cur_time = time(NULL);
   seed = (unsigned) (cur_time & 0x0000ffffL);
   srand(seed);
 
