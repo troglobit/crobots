@@ -26,6 +26,9 @@ information are displayed on the screen, in real-time.
 CROBOTS started out as DOS shareware, but is, as of Oct 23 2013, free
 software under terms of the GNU General Public License, version 2.
 
+CROBOTS has been tested and runs on Linux (GLIBC & musl libc), FreeBSD,
+macOS, and OmniOS (Illumos/OpenSolaris).
+
 
 Intended audience
 -----------------
