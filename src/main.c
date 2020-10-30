@@ -631,19 +631,19 @@ void free_robot(int i)
 {
   s_func *temp;
 
-  if (robots[i].funcs != (char *) 0)
+  if (robots[i].funcs)
     free(robots[i].funcs);
 
-  if (robots[i].code != (struct instr *) 0)
+  if (robots[i].code)
     free(robots[i].code);
 
-  if (robots[i].external != (long *) 0)
+  if (robots[i].external)
     free(robots[i].external);
 
-  if (robots[i].stackbase != (long *) 0)
+  if (robots[i].stackbase)
     free(robots[i].stackbase);
 
-  while (robots[i].code_list != (s_func *) 0) {
+  while (robots[i].code_list) {
     temp = robots[i].code_list;
     robots[i].code_list = temp->nextfunc;
     free(temp);

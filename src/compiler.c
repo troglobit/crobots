@@ -131,9 +131,9 @@ void init_comp(void)
   op_off = 0;
 
   /* allocate code space in robot, code should not be freed */
-  cur_robot->code_list = (s_func *) 0;
-  cur_robot->code = (s_instr *) malloc(CODESPACE * sizeof(s_instr));
-  instruct = (s_instr *) cur_robot->code;
+  cur_robot->code_list = NULL;
+  cur_robot->code = malloc(CODESPACE * sizeof(s_instr));
+  instruct = cur_robot->code;
 
   /* initialize all tables */
   for (i = 0; i < MAXSYM; i++) {
@@ -174,8 +174,7 @@ int reset_comp(void)
   /* this ensures no functions are referenced that are not coded or intrinsic */
   for (i = 0; *(func_tab + (i * ILEN)) != '\0'; i++) {
     found = 0;
-    for (chain = cur_robot->code_list; chain != (s_func *) 0; 
-	 chain = chain->nextfunc) {
+    for (chain = cur_robot->code_list; chain; chain = chain->nextfunc) {
       if (strcmp((func_tab + (i *ILEN)),chain->func_name) == 0) {
 	found = 1;
 	break;
@@ -531,7 +530,7 @@ int ebranch(void)
     return (0);
   }
   instruct->ins_type = BRANCH;
-  instruct->u.br = (s_instr *) 0;	/* must be fixed later */
+  instruct->u.br = NULL;	/* must be fixed later */
   last_ins = instruct++;
   return (1);
 }

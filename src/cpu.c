@@ -139,7 +139,7 @@ void cycle(void)
       if (!called) {
 	/* find coded function by name */
 	/* search through function headers */
-	for (f=cur_robot->code_list; f != (struct func *) 0; f=f->nextfunc) {
+	for (f=cur_robot->code_list; f; f=f->nextfunc) {
 	  if (r_debug)
             printf("\nfunc %s found %s\n",n,f->func_name);
 
@@ -489,7 +489,7 @@ void robot_go(struct robot *r)
   register struct func *f;
   register int i;
   
-  for (f = r->code_list; f != (struct func *) 0; f = f->nextfunc) {
+  for (f = r->code_list; f; f = f->nextfunc) {
     if (strcmp(f->func_name,"main") == 0) {
       r->ip = f->first;				/* start of code in main */
       for (i = 0; i < r->ext_count; i++)	/* zero externals */
