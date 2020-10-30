@@ -10,9 +10,6 @@
 /* main.c - top level controller */
 #include "config.h"
 
-/* INIT causes externals in crobots.h to have storage, & init intrinsic table */
-#define INIT 1 
-
 /* C includes */
 #include <unistd.h>
 #include <stdio.h>
@@ -29,12 +26,16 @@
 #include "motion.h"
 #include "screen.h"
 
-/* files declared in compiler.h */
-FILE *f_in;
-FILE *f_out;
-/* flex input and output files */
-extern FILE *yyin;
-extern FILE *yyout;
+s_missile missiles[MAXROBOTS][MIS_ROBOT];
+
+s_robot *cur_robot,		/* current robot */
+        robots[MAXROBOTS];	/* all robots */
+
+int r_debug,			/* debug switch */
+    r_flag;			/* global flag for push/pop errors */
+
+FILE *f_in;			/* the compiler input source file */
+FILE *f_out;			/* the compiler diagnostic file, assumed opened */
 
 /* SIGINT handler */
 void catch_int(int);

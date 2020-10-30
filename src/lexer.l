@@ -22,6 +22,8 @@ L			[a-zA-Z_]
 #undef ECHO
 #define ECHO fprintf(f_out,"%s",yytext)
 
+long kk;		/* constant */
+
 int yywrap(void);
 void count(void);
 int lexgetc(void);

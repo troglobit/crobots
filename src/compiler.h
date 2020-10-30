@@ -7,11 +7,13 @@
 /*                                                                           */
 /*****************************************************************************/
 
-//#include"crobots.h"
+#ifndef CROBOTS_COMPILER_H_
+#define CROBOTS_COMPILER_H_
+
+#include <stdio.h>
+#include "crobots.h"
 
 /* compiler variables */
-
-/* note-the EXT flag (or lack of it) causes the extern in all but one module */
 
 #define MAXSYM    64    /* maximum number of symbol table entries per pool */
 #define NESTLEVEL 16	/* maximum nest level for ifs, whiles, and fcalls */
@@ -19,32 +21,25 @@
 extern char *yytext;	/* from lexical analyzer */
 //extern char yytext[];
 
+extern FILE *yyin,	/* flex input and output files */
+	    *yyout;
 
 extern FILE *f_in,	/* the compiler input source file */
             *f_out;	/* the compiler diagnostic file, assumed opened */
 
-#ifndef EXT
 extern
-#endif
-char last_ident[8],	/* last identifier recognized */
-     func_ident[8];	/* used on function definitions */
+char last_ident[],	/* last identifier recognized */
+     func_ident[];	/* used on function definitions */
 /*TODO: include mainheim */
      
-     
-#ifndef EXT
 extern
-#endif
 s_instr *last_ins,	/* last instruction compiled */
         *instruct;	/* current instruction */
 
-#ifndef EXT
 extern
-#endif
 long kk;		/* constant */
 
-#ifndef EXT
 extern
-#endif
 int num_parm,		/* number of parameters in a function definition */
     un_op,		/* for special unary operators */
     num_instr,		/* counts number of instructions */
@@ -53,37 +48,14 @@ int num_parm,		/* number of parameters in a function definition */
     undeclared,		/* count variables that are implicit */
     postfix;		/* count the usage of postfix operators */
 
-#ifndef EXT
 extern
-#endif
-struct fix_if {
-  s_instr *fix_true; /* where true branches around else */
-  s_instr *fix_false;/* where if-false goes to */
-} *ifs;
-
-
-#ifndef EXT
-extern
-#endif
-struct fix_while {
-  s_instr *loop;	/* where end-of-while should loop to */
-  s_instr *fix_br;	/* where while expr should branch on false */
-} *whiles;
-
-
-
-#ifndef EXT
-extern
-#endif
 char *ext_tab,		/* external symbol table */
      *var_tab,		/* local symbol table */
      *func_tab,		/* function table */
      *func_stack,	/* function call stack */
      *var_stack;	/* variable stack */
 
-#ifndef EXT
 extern
-#endif
 int  func_off,		/* function stack offset */
      var_off,		/* variable stack offset */
      *op_stack,		/* assignment operator stack */
@@ -92,10 +64,16 @@ int  func_off,		/* function stack offset */
      while_nest,	/* current while nest level */
      in_func;		/* in or not in function body, for variable declares */
 
-#ifndef EXT
 extern
-#endif
-s_func *nf;	/* current function header */
+s_func *nf;		/* current function header */
+
+struct intrin {
+  char *n;
+  void (*f)();
+};
+
+extern struct intrin intrinsics[];
+
 
 /* functions */
 void yyerror(char *s);
@@ -128,13 +106,4 @@ void decompile(s_instr * code);
 void decinstr(s_instr *code);
 void printop(int op);
 
-
-
-
-/* end of compiler.h */
-
-
-
-
-
-
+#endif /* CROBOTS_COMPILER_H_ */

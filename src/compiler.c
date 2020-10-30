@@ -1,5 +1,3 @@
-
-
 /*****************************************************************************/
 /*                                                                           */
 /*  CROBOTS                                                                  */
@@ -8,11 +6,6 @@
 /*                                                                           */
 /*                                                                           */
 /*****************************************************************************/
-
-/* EXT causes externals to be declared without extern keyword in compiler.h */
-/* that is, to give them actual storage (some compilers require this method) */
-#define EXT 1
-
 
 
 /* compiler.c - compiler routines in support of grammar.c */
@@ -24,7 +17,66 @@
 #include "crobots.h"
 #include "compiler.h"
 #include "grammar.h"
+#include "library.h"
 
+
+char last_ident[8],	/* last identifier recognized */
+     func_ident[8];	/* used on function definitions */
+
+s_instr *last_ins,	/* last instruction compiled */
+        *instruct;	/* current instruction */
+
+int num_parm,		/* number of parameters in a function definition */
+    un_op,		/* for special unary operators */
+    num_instr,		/* counts number of instructions */
+    column,		/* from lexical analyzer */
+    if_nest,		/* current if nest level */
+    undeclared,		/* count variables that are implicit */
+    postfix;		/* count the usage of postfix operators */
+
+char *ext_tab,		/* external symbol table */
+     *var_tab,		/* local symbol table */
+     *func_tab,		/* function table */
+     *func_stack,	/* function call stack */
+     *var_stack;	/* variable stack */
+
+int  func_off,		/* function stack offset */
+     var_off,		/* variable stack offset */
+     *op_stack,		/* assignment operator stack */
+     op_off,		/* assignment operator offset */
+     work,		/* integer work value */
+     while_nest,	/* current while nest level */
+     in_func;		/* in or not in function body, for variable declares */
+
+s_func *nf;		/* current function header */
+
+struct fix_if {
+  s_instr *fix_true;	/* where true branches around else */
+  s_instr *fix_false;	/* where if-false goes to */
+} *ifs;
+
+struct fix_while {
+  s_instr *loop;	/* where end-of-while should loop to */
+  s_instr *fix_br;	/* where while expr should branch on false */
+} *whiles;
+
+struct intrin intrinsics[20] = {
+  {"*dummy*",	NULL},
+  {"scan",	c_scan},
+  {"cannon",	c_cannon},
+  {"drive",	c_drive},
+  {"damage",	c_damage},
+  {"speed",	c_speed},
+  {"loc_x",	c_loc_x},
+  {"loc_y",	c_loc_y},
+  {"rand",	c_rand},
+  {"sin",	c_sin},
+  {"cos",	c_cos},
+  {"tan",	c_tan},
+  {"atan",	c_atan},
+  {"sqrt",	c_sqrt},
+  {"",		NULL}
+};
 
 
 /* yyerror - simple error message on parser failure */
@@ -38,9 +90,6 @@ void yyerror(char *s)
   fprintf(f_out,"^\n");
   fprintf(f_out,"** Error ** %s",s);
 }
-
-
-void *malloc();
 
 
 /* init_comp - initializes the compiler for one file */

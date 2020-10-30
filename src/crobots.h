@@ -1,5 +1,3 @@
-
-
 /*****************************************************************************/
 /*                                                                           */
 /*  CROBOTS                                                                  */
@@ -9,9 +7,8 @@
 /*                                                                           */
 /*****************************************************************************/
 
-
-
-/* note-the INIT flag (or lack of it) causes extern for all but one module */
+#ifndef CROBOTS_H_
+#define CROBOTS_H_
 
 #define ILEN             8	/* length of identifiers, also in lexanal.l */
 #define MAXROBOTS        4	/* maximum number of robots */
@@ -87,7 +84,6 @@ typedef struct robot {		/* robot context */
 } s_robot;
 
 
-
 /* missile constants */
 #define MIS_SPEED 500		/* how far in one motion cycle (in clicks) (originally 500)*/
 #define MIS_RANGE 700 		/* maximum missile range (see MAX_X, MAX_Y */
@@ -112,20 +108,13 @@ typedef struct missile {	/* active missiles */
   int curr_dist;		/* current distance from orgin * 100 */
 } s_missile;
 
-#ifndef INIT
-extern
-#endif
-s_missile missiles[MAXROBOTS][MIS_ROBOT];
+extern s_missile missiles[MAXROBOTS][MIS_ROBOT];
 
-#ifndef INIT
 extern
-#endif
 s_robot *cur_robot,		/* current robot */
         robots[MAXROBOTS];	/* all robots */
 
-#ifndef INIT
 extern
-#endif
 int r_debug,			/* debug switch */
     r_flag;			/* global flag for push/pop errors */
 
@@ -160,43 +149,6 @@ int r_debug,			/* debug switch */
 #define NEAR_RANGE   20
 #define FAR_RANGE    40
 
-
-
-/* declare library function table */
-#include "library.h"
-
-#ifndef INIT
-extern
-#endif
-struct intrin {
-  char *n;
-  void (*f)();
-} intrinsics[20]
-
-#ifdef INIT
- = {
-  {"*dummy*",	(void (*)()) 0},
-  {"scan",	c_scan},
-  {"cannon",	c_cannon},
-  {"drive",	c_drive},
-  {"damage",	c_damage},
-  {"speed",	c_speed},
-  {"loc_x",	c_loc_x},
-  {"loc_y",	c_loc_y},
-  {"rand",	c_rand},
-  {"sin",	c_sin},
-  {"cos",	c_cos},
-  {"tan",	c_tan},
-  {"atan",	c_atan},
-  {"sqrt",	c_sqrt},
-  {"",		(void (*)()) 0} 
- }
-#endif
-;
-
 /* motion functions */
 
-
-/* end of crobots.h header */
-
-
+#endif /* CROBOTS_H_ */
