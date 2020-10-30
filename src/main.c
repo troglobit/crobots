@@ -33,7 +33,8 @@ s_robot *cur_robot,		/* current robot */
 
 int r_debug,			/* debug switch */
     r_flag,			/* global flag for push/pop errors */
-    r_interactive;		/* enable classic 'Press <enter> to continue */
+    r_interactive,		/* enable classic 'Press <enter> to continue */
+    r_stats;			/* show robot stats on exit */
 
 FILE *f_in;			/* the compiler input source file */
 FILE *f_out;			/* the compiler diagnostic file, assumed opened */
@@ -48,6 +49,7 @@ void trace(char *f);
 void match(int m, long l, char *f[], int n);
 void play(char *f[], int n);
 void free_robot(int i);
+void robot_stats(void);
 void rand_pos(int n);
 
 static int usage(int rc)
@@ -73,6 +75,8 @@ static int usage(int rc)
 	  "\n"
 	  "  -l NUM    Limit the number of machine CPU cycles per match when '-m'\n"
           "            is specified.  The defaul cycle limit is 500,000\n"
+	  "\n"
+	  "  -s        Show robot stats on exit\n"
 	  "\n"
 	  "  -v        Show program version and exit\n"
 	  "\n"
@@ -146,9 +150,13 @@ int main(int argc,char *argv[])
 	  matches = atoi((argv[i])+2);
 	  break;
 
+        case 's':
+	  r_stats= 1;
+	  break;
+
         case 'v':
-		fprintf(stderr, "%s\n", PACKAGE_STRING);
-		return 0;
+	  fprintf(stderr, "%s\n", PACKAGE_STRING);
+	  return 0;
 
 	default:
 	  break;
@@ -242,6 +250,9 @@ int main(int argc,char *argv[])
       }
     }
   }
+
+  if (r_stats)
+    robot_stats();
 
   /* all done */ 
   exit(0);
@@ -723,15 +734,12 @@ void free_robot(int i)
     robots[i].code_list = temp->nextfunc;
     free(temp);
   }
-
 }
 
-
-/* catch_int - catch the interrupt signal and die, cleaning screen */
-void catch_int(int i)
+/* robot_stats - dump robot stats, optionally showed at exit */
+void robot_stats(void)
 {
-  if (!r_debug)
-    end_disp();
+  int i;
 
   for (i = 0; i < MAXROBOTS; i++) {
     cur_robot = &robots[i];
@@ -758,6 +766,18 @@ void catch_int(int i)
     printf("\n\n");
   }
   fflush(stdout);
+}
+
+/* catch_int - catch the interrupt signal and die, cleaning screen */
+void catch_int(int signo)
+{
+  (void)signo;
+
+  if (!r_debug)
+    end_disp();
+
+  if (r_stats)
+    robot_stats();
 
   exit(0);
 }
