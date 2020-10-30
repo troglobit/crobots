@@ -165,6 +165,6 @@ void lexputc(int c)
 }
 
 /* these two dummy routines for lex's debug options */
-int allprint(void) {}
+int allprint(void) { return 0; }
 
-int sprint(void) {}
+int sprint(void) { return 0; }
