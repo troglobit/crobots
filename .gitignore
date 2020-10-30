@@ -1,4 +1,8 @@
 *~
+GPATH
+GRTAGS
+GTAGS
+ID
 aux/
 autom4te.cache/
 aclocal.m4
