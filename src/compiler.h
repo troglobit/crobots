@@ -77,33 +77,47 @@ extern struct intrin intrinsics[];
 
 /* functions */
 void yyerror(char *s);
+int yyparse(void);
+
 void init_comp(void);
 int reset_comp(void);
+
 int new_func(void);
 void end_func(void);
+
 int allocvar(char s[], char *pool);
 int findvar(char s[], char *pool);
+
 int stackid(char id[], char *stack, int *ptr);
 int popid(char id[], char *stack, int *ptr);
+
 int poolsize(char *pool);
 void dumpoff(char *pool);
+
 int efetch(int offset);
 int estore(int offset, int op);
+
 int econst(long c);
 int ebinop(int c);
 int efcall(int c);
+
 int eretsub(void);
 int ebranch(void);
+
 int echop(void);
 int eframe(void);
+
 int new_if(void);
 int else_part(void);
 void close_if(void);
+
 int new_while(void);
 int while_expr(void);
 int close_while(void);
+
 void decompile(s_instr * code);
 void decinstr(s_instr *code);
+
 void printop(int op);
 
 #endif /* CROBOTS_COMPILER_H_ */
