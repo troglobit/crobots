@@ -690,6 +690,7 @@ void catch_int(int signo)
   if (!r_debug)
     end_disp();
 
+  fprintf(stderr, "Aborted.\n");
   if (r_stats)
     robot_stats();
 
