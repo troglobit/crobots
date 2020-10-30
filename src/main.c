@@ -43,11 +43,11 @@ FILE *f_out;			/* the compiler diagnostic file, assumed opened */
 void catch_int(int);
 
 /* high level functions */
-void init_robot(int i);
 void comp(char *f[], int n);
-void trace(char *f);
-void match(int m, long l, char *f[], int n);
 void play(char *f[], int n);
+void match(int m, long l, char *f[], int n);
+void trace(char *f);
+void init_robot(int i);
 void free_robot(int i);
 void robot_stats(void);
 void rand_pos(int n);
@@ -220,7 +220,7 @@ int main(int argc,char *argv[])
 
   /* compile only */
   if (comp_only) {
-    comp(files,num_robots);
+    comp(files, num_robots);
     exit(0);
   }
 
@@ -240,9 +240,9 @@ int main(int argc,char *argv[])
 
   /* run a series of matches */
   if (matches != 0)
-    match(matches,limit,files,num_robots);
+    match(matches, limit,files, num_robots);
   else
-    play(files,num_robots);
+    play(files, num_robots);
 
   if (r_stats)
     robot_stats();
@@ -585,39 +585,6 @@ void match(int m, long l, char *f[], int n)
 }
 
 
-/* rand_pos - randomize the starting robot postions */
-/*           dependent on MAXROBOTS <= 4 */
-/*            put robots in separate quadrant */
-void rand_pos(int n)
-{
-  int i, k;
-  int quad[4];
-
-  for (i = 0; i < 4; i++) {
-    quad[i] = 0;
-  }
-
-  /* get a new quadrant */
-  for (i = 0; i < n; i++) {
-    k = rand() % 4;
-    if (quad[k] == 0) 
-      quad[k] = 1;
-    else {
-      while (quad[k] != 0) {
-	if (++k == 4)
-	  k = 0;
-      }
-      quad[k] = 1;
-    }
-    robots[i].org_x = robots[i].x = 
-       (rand() % (MAX_X * CLICK / 2)) + ((MAX_X * CLICK / 2) * (k%2));
-    robots[i].org_y = robots[i].y = 
-       (rand() % (MAX_Y * CLICK / 2)) + ((MAX_Y * CLICK / 2) * (k<2));
-  }
-}
-
-
-
 /* trace - compile and run the robot in debug mode */
 void trace(char *f)
 {
@@ -669,6 +636,36 @@ void trace(char *f)
 }
 
 
+/* rand_pos - randomize the starting robot postions */
+/*           dependent on MAXROBOTS <= 4 */
+/*            put robots in separate quadrant */
+void rand_pos(int n)
+{
+  int i, k;
+  int quad[4];
+
+  for (i = 0; i < 4; i++) {
+    quad[i] = 0;
+  }
+
+  /* get a new quadrant */
+  for (i = 0; i < n; i++) {
+    k = rand() % 4;
+    if (quad[k] == 0)
+      quad[k] = 1;
+    else {
+      while (quad[k] != 0) {
+	if (++k == 4)
+	  k = 0;
+      }
+      quad[k] = 1;
+    }
+    robots[i].org_x = robots[i].x =
+       (rand() % (MAX_X * CLICK / 2)) + ((MAX_X * CLICK / 2) * (k%2));
+    robots[i].org_y = robots[i].y =
+       (rand() % (MAX_Y * CLICK / 2)) + ((MAX_Y * CLICK / 2) * (k<2));
+  }
+}
 
 
 /* init a robot */
