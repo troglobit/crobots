@@ -108,9 +108,7 @@ int main(int argc,char *argv[])
   int num_robots = 0;
   char *files[MAXROBOTS];
   char *prog = PACKAGE;
-  char *strrchr();   /* this is rindex in some compilers */
   unsigned seed;
-  long atol();
   long cur_time;
 
   /* parse the command line */
