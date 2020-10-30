@@ -164,25 +164,23 @@ int main(int argc,char *argv[])
 	  break;
       }
 
-    } else { 	/* a file name, check for existence */
-
+    } else {
+      /* a file name, check for existence */
       if (num_robots < MAXROBOTS) {
-	if ((f_in = fopen(argv[i],"r")) != (FILE *) NULL) {
-//	  fclose(f_in);
-	  files[num_robots] = argv[i];
-	  num_robots++;
+        f_in = fopen(argv[i], "r");
+	if (f_in) {
+	  fclose(f_in);
+	  files[num_robots++] = argv[i];
 	} else {
-	  fprintf(stderr,"%s: robot source file `%s' not found\n",prog,
-		  argv[i]);
+	  fprintf(stderr, "%s: robot `%s' not found!\n", prog, argv[i]);
           printf("Press <enter> to continue......");
           getchar();
           printf("\n");
 	}
       } else {
-	fprintf(stderr,"%s: extra robot source `%s' ignored\n",prog,argv[i]);
+	fprintf(stderr, "%s: extra robot `%s', ignored.\n", prog, argv[i]);
       }
     }
-	
   }
 
   /* make sure there is at least one robot at this point */
