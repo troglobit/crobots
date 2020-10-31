@@ -236,7 +236,6 @@ void c_loc_x(void)
 
 void c_loc_y(void)
 {
-  int y;
   push((long) cur_robot->y / CLICK);
 }
 

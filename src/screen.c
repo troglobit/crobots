@@ -55,13 +55,8 @@ struct {
 static int f_width;  /* play field width */
 static int f_height; /* play field height */
 
-static int col_1;    /* column for damage & speed */
-static int col_2;    /* column for scan & heading */
-static int col_3;    /* column for cpu cycle count*/
-
 
 /* init_disp - initialize display */
-
 void init_disp(void)
 {
   initscr();
@@ -102,7 +97,7 @@ void end_disp(void)
 
 void draw_field(void)
 {
-  int i, j;
+  int i;
 
   /* init fixed screen data; 0,0 is top left, LINES-1,COLS-1 is lower right */
   f_width = COLS - STAT_WID - 3;  /* columns available */
@@ -330,14 +325,6 @@ void robot_stat(int n)
   move(5*n+3,COLS-STAT_WID+5);
   printw("(%3d,",robots[n].x / CLICK);
   printw("%3d)",robots[n].y / CLICK);
-
-
-/*
-  move(5*n+3,col_1);
-  printw("%3d",robots[n].x / CLICK);
-  move(5*n+3,col_2);
-  printw("%3d",robots[n].y / CLICK);
-*/
 
   if (changed)
     refresh();
