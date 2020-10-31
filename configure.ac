@@ -1,5 +1,6 @@
 AC_INIT([CROBOTS], [1.2-beta1],, [crobots], [https://github.com/troglobit/crobots/])
 AC_CONFIG_AUX_DIR(aux)
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11 foreign])
 AM_SILENT_RULES([yes])
 
@@ -14,12 +15,11 @@ AM_PROG_LEX
 
 AC_HEADER_STDC
 
-# Check for curses/ncurses compatible library
-AC_CHECK_HEADERS([curses.h])
-AC_SEARCH_LIBS(initscr, curses)
-
 # Check for a common math function in -lm
 AC_SEARCH_LIBS([cos], [m])
+
+AX_WITH_CURSES
+AS_IF([test "x$ax_cv_curses" != "xyes" ], [AC_MSG_ERROR([curses library not found])])
 
 AC_OUTPUT
 

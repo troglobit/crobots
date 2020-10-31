@@ -1,5 +1,3 @@
-
-
 /*****************************************************************************/
 /*                                                                           */
 /*  CROBOTS                                                                  */
@@ -12,7 +10,6 @@
 /* screen.c - low level screen display routines */
 /*            change or modify this module for different systems */
 
-#include <curses.h>
 #include "crobots.h"
 #include "screen.h"
 
