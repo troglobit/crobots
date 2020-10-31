@@ -1,5 +1,6 @@
 The Original C Robots Programming Game
 ======================================
+[![License Badge][]][License] [![Travis Status][]][Travis]
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
@@ -58,3 +59,8 @@ email or patches, he will probably **not** be updating CROBOTS any more.
 If you like, you can instead send patches or GitHub pull requests to
 this project.  It is the logical continuation of the project and has the
 explicit goal of gathering (sane) patches from all forks out there.
+
+[License]:          https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+[License Badge]:    https://img.shields.io/badge/License-GPL%20v2-blue.svg
+[Travis]:           https://travis-ci.com/github/troglobit/crobots
+[Travis Status]:    https://travis-ci.com/troglobit/crobots.png?branch=main
