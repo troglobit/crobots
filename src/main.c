@@ -47,7 +47,7 @@ void catch_int(int);
 int comp(char *f[], int n);
 void play(char *f[], int n);
 void match(int m, long l, char *f[], int n);
-void trace(char *f);
+void debug(char *f);
 void init_robot(int i);
 void free_robot(int i);
 void robot_stats(void);
@@ -229,7 +229,7 @@ int main(int argc,char *argv[])
 
   /* debug the first robot listed */
   if (debug_only) {
-    trace(files[0]); /* trace only first source */
+    debug(files[0]); /* trace only first source */
     exit(0);
   }
 
@@ -523,8 +523,8 @@ void match(int m, long l, char *f[], int n)
 }
 
 
-/* trace - compile and run the robot in debug mode */
-void trace(char *f)
+/* debug - compile and run the robot in debug mode */
+void debug(char *f)
 {
   int c = 1; 
 
