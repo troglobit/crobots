@@ -29,8 +29,10 @@ cat <<EOF
 
 ------------------ Summary ------------------
  $PACKAGE_NAME version $PACKAGE_VERSION
-  Prefix................: $prefix
-  Docdir................: $DOCDIR
+  Install prefix........: $prefix
+  Doc & examples prefix.: $DOCDIR
+  Curses CFLAGS.........: $CURSES_CFLAGS
+  Curses LIBS...........: $CURSES_LIBS
   C Compiler............: $CC $CFLAGS $CPPFLAGS $LDFLAGS $LIBS
 
 ------------- Compiler version --------------
