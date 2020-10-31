@@ -32,7 +32,6 @@
 #define SHELL   ACS_DIAMOND
 
 
-
 /* structure for explosions */
 struct {
   int xx;
@@ -81,7 +80,6 @@ void init_disp(void)
 
 
 /* end_disp - cleanup and end display */
-
 void end_disp(void)
 {
   nocrmode();
@@ -94,7 +92,6 @@ void end_disp(void)
 
 
 /* draw_field - draws the playing field and status boxes */
-
 void draw_field(void)
 {
   int i;
@@ -103,49 +100,46 @@ void draw_field(void)
   f_width = COLS - STAT_WID - 3;  /* columns available */
   f_height= LINES - 3;            /* lines available */
 
-  
   /* top line */
   move(0,0);
   addch(UL_CORN);
-  for (i = 0; i <= f_width; i++) {
+  for (i = 0; i <= f_width; i++)
     addch(HORZ);
-  }
   addch(UR_CORN);
 
   /* middle lines */
-  for (i = 1; i <= f_height+1; i++) {
-    move(i,0);
+  for (i = 1; i <= f_height + 1; i++) {
+    move(i, 0);
     addch(VERT);
-    move(i,COLS-STAT_WID-1);
+    move(i, COLS-STAT_WID - 1);
     addch(VERT);
   }
 
   /* bottom line */
-  move(LINES-1,0);
+  move(LINES - 1, 0);
   addch(LL_CORN);
-  for (i = 0; i <= f_width; i++) {
+  for (i = 0; i <= f_width; i++)
     addch(HORZ);
-  }
   addch(LR_CORN);
 
   /* status boxes -- CAUTION: this is dependent on MAXROBOTS */
   for (i = 0; i < MAXROBOTS; i++) {
-    move(5*i+1,COLS-STAT_WID+1);
-    attron(COLOR_PAIR(i+1));addch('1'+i);attroff(COLOR_PAIR(i+1));
-    printw(" %-14s",robots[i].name);
+    move(5 * i + 1, COLS - STAT_WID + 1);
+    attron(COLOR_PAIR(i + 1));
+    addch('1' + i);
+    attroff(COLOR_PAIR(i + 1));
+    printw(" %-14s", robots[i].name);
   }
   
-  move(LINES-1,COLS-STAT_WID);
+  move(LINES - 1, COLS - STAT_WID);
   printw(" CPU Cycle:       ");
 
   refresh();
-  
 }
 
 
 
 /* plot_robot - plot the robot position */
-
 void plot_robot(int n)
 {
   int i, k;
