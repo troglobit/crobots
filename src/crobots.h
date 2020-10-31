@@ -6,13 +6,14 @@
 /*                                                                           */
 /*                                                                           */
 /*****************************************************************************/
-
 #ifndef CROBOTS_H_
 #define CROBOTS_H_
 
+#include "config.h"
+
 #define ILEN             8	/* length of identifiers, also in lexanal.l */
 #define MAXROBOTS        4	/* maximum number of robots */
-#define CODESPACE     2000	/* maximum number of machine instructions 1000 originally*/
+#define CODESPACE      INSTRMAX	/* maximum number of machine instructions 1000 originally*/
 #define DATASPACE      500	/* maximum number of data stack entries */
 #define UPDATE_CYCLES   30	/* number of cycles before screen update (originally 30)*/
 #define MOTION_CYCLES   15 	/* number of cycles before motion update (originally 15)*/

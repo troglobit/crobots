@@ -21,6 +21,15 @@ AC_SEARCH_LIBS([cos], [m])
 AX_WITH_CURSES
 AS_IF([test "x$ax_cv_curses" != "xyes" ], [AC_MSG_ERROR([curses library not found])])
 
+AC_ARG_WITH(max-instructions,
+        AS_HELP_STRING([--with-max-instructions=N], [Cheat, use more CPU instructions for robotos, default: 1000]),
+	[codespace=$withval], [codespace=1000])
+
+AS_IF([test "x$with_codespace" != "xno"], [
+	AS_IF([test "x$codespace" = "xyes"], [
+		AC_DEFINE_UNQUOTED(INSTRMAX, 1000, [Max CPU instructions for robots])])
+	AC_DEFINE_UNQUOTED(INSTRMAX, $codespace, [Max CPU instructions for robots])])
+
 AC_OUTPUT
 
 DOCDIR=`eval echo $docdir`
@@ -34,6 +43,9 @@ cat <<EOF
   Curses CFLAGS.........: $CURSES_CFLAGS
   Curses LIBS...........: $CURSES_LIBS
   C Compiler............: $CC $CFLAGS $CPPFLAGS $LDFLAGS $LIBS
+
+Behavior:
+  Max CPU instructions..: $codespace
 
 ------------- Compiler version --------------
 $($CC --version || true)
