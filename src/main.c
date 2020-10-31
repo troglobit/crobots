@@ -351,6 +351,7 @@ void play(char *f[], int n)
       move_robots(1);
       move_miss(1);
     }
+
     /* is it time to update display */
     if (--display <= 0) {
       display = UPDATE_CYCLES;
@@ -395,9 +396,7 @@ void play(char *f[], int n)
     fprintf(stdout,"\r\nIt's a draw\r\n");
   }
 
-  //end_disp();
   exit(0);
-
 }
 
 

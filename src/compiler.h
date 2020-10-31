@@ -19,7 +19,6 @@
 #define NESTLEVEL 16	/* maximum nest level for ifs, whiles, and fcalls */
 
 extern char *yytext;	/* from lexical analyzer */
-//extern char yytext[];
 
 extern FILE *yyin,	/* flex input and output files */
 	    *yyout;
