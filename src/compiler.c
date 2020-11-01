@@ -243,6 +243,8 @@ int reset_comp(void)
     cur_robot->funcs = func_tab;
     cur_robot->status = ACTIVE;
     instruct->ins_type = NOP;
+  } else {
+    free(func_tab);
   }
 
   if (!good || warnings)
