@@ -348,18 +348,17 @@ void play(char *f[], int n)
     k = 0;
     for (i = 0; i < num_robots; i++) {
       for (j = 0; j < MIS_ROBOT; j++) {
-	if (missiles[i][j].stat == FLYING) {
+	if (missiles[i][j].stat == FLYING)
 	  k = 1;
-	}
       }
     }
-    if (k) {
-      move_robots(1);
-      move_miss(1);
-      update_disp();
-    } 
-    else  
+
+    if (!k)
       break;
+
+    move_robots(1);
+    move_miss(1);
+    update_disp();
   }
 
   end_disp();
