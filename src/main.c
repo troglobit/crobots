@@ -11,12 +11,13 @@
 #include "config.h"
 
 /* C includes */
-#include <unistd.h>
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
 #include <time.h>
+#include <unistd.h>
 
 /* crobots includes */
 #include "crobots.h"
@@ -62,23 +63,16 @@ static int usage(int rc)
 	  "Options:\n"
 	  "  -c        Compile only, produce virtual machine assembler code and\n"
 	  "            symbol tables\n"
-	  "\n"
 	  "  -d        Compile one program, then invoke machine level single step\n"
 	  "            tracing (debugger)\n"
-	  "\n"
 	  "  -h        This help text\n"
-	  "\n"
 	  "  -i        Interactive mode, show code output and 'Press <enter> ..'\n"
-	  "\n"
 	  "  -m NUM    Run a series of matches, were N is the number of matches.\n"
           "            If '-m' is not specified, the default is to run one match\n"
 	  "            and display the realtime battlefield\n"
-	  "\n"
 	  "  -l NUM    Limit the number of machine CPU cycles per match when '-m'\n"
           "            is specified.  The defaul cycle limit is 500,000\n"
-	  "\n"
 	  "  -s        Show robot stats on exit\n"
-	  "\n"
 	  "  -v        Show program version and exit\n"
 	  "\n"
 	  "Arguments:\n"
@@ -87,7 +81,6 @@ static int usage(int rc)
 	  "            will be \"cloned\" into another, so that two robots (running\n"
 	  "            the same program) will compete.  Any file name may be used,\n"
 	  "            but for consistency use '.r' as the extension\n"
-	  "\n"
 	  "  [>file]   Use DOS 2.0+ redirection to get a compile listing (with '-c')\n"
 	  "            or to record matches (with '-m option)\n"
 	  "\n"
@@ -104,30 +97,20 @@ int main(int argc,char *argv[])
   int comp_only = 0;
   int debug_only = 0;
   int ignored = 0;
-  int i;
+  int i, c;
   int num_robots = 0;
-  char *files[MAXROBOTS];
   char *prog = PACKAGE;
   unsigned seed;
   long cur_time;
 
-  /* parse the command line */
-  for (i = 1; --argc; i++) {
-
-    if (argv[i][0] == '-') {
-
-      switch (argv[i][1]) {
-       
-	/* compile only flag */
-        case 'c':
-        case 'C':
+  while ((c = getopt(argc, argv, "cdhil:m:sv")) != EOF) {
+      switch (c) {
+        case 'c':		/* compile only flag */
           comp_only = 1;
           r_debug = 1;          /* turns on full compile info */
           break;
 
-	/* debug one robot */
-        case 'd':
-        case 'D':
+        case 'd':		/* debug one robot */
           debug_only = 1;
           r_debug = 1;          /* turns on full compile info */
 	  break;
@@ -139,16 +122,12 @@ int main(int argc,char *argv[])
 	  r_interactive = 1;
 	  break;
 
-	/* limit number of cycles in a match */
-	case 'l':
-	case 'L':
-	  limit = atol((argv[i])+2);
+	case 'l':		/* limit number of cycles in a match */
+	  limit = atol(optarg);
 	  break;
 
-	/* run multiple matches */
-        case 'm':
-        case 'M':
-	  matches = atoi((argv[i])+2);
+        case 'm':		/* run multiple matches */
+	  matches = atoi(optarg);
 	  break;
 
         case 's':
@@ -163,34 +142,13 @@ int main(int argc,char *argv[])
 	  break;
       }
 
-    } else {
-      /* a file name, check for existence */
-      if (num_robots < MAXROBOTS) {
-        f_in = fopen(argv[i], "r");
-	if (f_in) {
-	  fclose(f_in);
-	  files[num_robots++] = argv[i];
-	} else {
-	  fprintf(stderr, "%s: robot `%s' not found!\n", prog, argv[i]);
-          printf("Press <enter> to continue......");
-          getchar();
-          printf("\n");
-	}
-      } else {
-	fprintf(stderr, "%s: extra robot `%s', ignored.\n", prog, argv[i]);
-	ignored++;
-      }
-    }
   }
 
   /* make sure there is at least one robot at this point */
-  if (num_robots == 0) {
-    fprintf(stderr,"%s: no robot source files\n",prog);
-    exit(1);
+  if (optind == argc) {
+    fprintf(stderr, "%s: no robot source files\n", prog);
+    return usage(1);
   }
-
-  if (ignored)
-    puts("");
 
   /* print version, copyright notice, GPL notice */
   if (r_interactive) {
@@ -223,29 +181,22 @@ int main(int argc,char *argv[])
 
   /* compile only */
   if (comp_only) {
-    comp(files, num_robots);
+    comp(&argv[optind], argc - optind);
     exit(0);
   }
 
   /* debug the first robot listed */
   if (debug_only) {
-    debug(files[0]); /* trace only first source */
+    /* trace only first source */
+    debug(argv[optind]);
     exit(0);
-  }
-
-  /* if only one robot, make it fight itself */
-  if (num_robots < 2) {
-	  fprintf(stderr,"%s: only one robot?  Cloning a second from %s.\n",
-		  prog,files[0]);
-	  num_robots++;
-	  files[1] = files[0];
   }
 
   /* run a series of matches */
   if (matches != 0)
-    match(matches, limit,files, num_robots);
+    match(matches, limit, &argv[optind], argc - optind);
   else
-    play(files, num_robots);
+    play(&argv[optind], argc - optind);
 
   if (r_stats)
     robot_stats();
@@ -263,6 +214,17 @@ int comp(char *f[], int n)
   int i;
 
   for (i = 0; i < n; i++) {
+    if (num >= MAXROBOTS) {
+      fprintf(stderr, "%s: Max robots reached, skipping robot '%s' ...\n", PACKAGE, f[i]);
+      continue;
+    }
+
+    f_in = fopen(f[i], "r");
+    if (!f_in) {
+      fprintf(stderr, "%s: robot '%s' not found, skipping ...\n", PACKAGE, f[i]);
+      continue;
+    }
+
     s = strrchr(f[i],'/');
     if (s)
       s++;
@@ -270,7 +232,6 @@ int comp(char *f[], int n)
       s = f[i];
 
     fprintf(f_out, "Compiling %-20s", s);
-    f_in = fopen(f[i], "r");
 
     /* compile the robot */
     r_flag = 0;
@@ -300,6 +261,29 @@ int comp(char *f[], int n)
   return num;
 }
 
+/* prepare - prepare for battle */
+int prepare(char *f[], int n)
+{
+  int num = 0;
+
+  num = comp(f, n);
+  switch (num) {
+  default:
+    break;
+
+  case 1:		   /* if only one robot, make it fight itself */
+    fprintf(stderr,"%s: only one robot?  Cloning a second from %s.\n", PACKAGE, f[0]);
+    robots[1] = robots[0];
+    num++;
+    break;
+
+  case 0:
+    fprintf(stdout,"\n\nCannot play without at least 2 good robots.\n\n");
+    exit(1);
+  }
+
+  return num;
+}
 
 /* play - watch the robots compete */
 void play(char *f[], int n)
@@ -310,13 +294,8 @@ void play(char *f[], int n)
   int movement;
   int i, j, k;
   long c = 0L;
-  
-  num_robots = comp(f, n);
-  if (num_robots < 2) {
-    fprintf(stdout,"\n\nCannot play without at least 2 good robots.\n\n");
-    exit(1);
-  }
 
+  num_robots = prepare(f, n);
   for (i = 0; i < num_robots; i++)
       robot_go(&robots[i]);
 
@@ -400,8 +379,6 @@ void play(char *f[], int n)
 }
 
 
-
-
 /* match - run a series of matches */
 void match(int m, long l, char *f[], int n)
 {
@@ -415,12 +392,8 @@ void match(int m, long l, char *f[], int n)
   long c;
 
   f_out = fopen("/dev/null","w");
-  num_robots = comp(f, n);
+  num_robots = prepare(f, n);
   fclose(f_out);
-  if (num_robots < 2) {
-    fprintf(stderr,"\n\nCannot play without at least 2 robots.\n\n");
-    exit(1);
-  }
 
   fprintf(stderr,"\nMatch play starting.\n\n");
   for (m_count = 1; m_count <= m; m_count++) {
