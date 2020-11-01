@@ -1,5 +1,6 @@
-SUBDIRS           = doc examples src
-dist_doc_DATA     = README.md LICENSE
+SUBDIRS        = doc examples src
+dist_doc_DATA  = README.md LICENSE
+dist_man6_MANS = crobots.6
 
 ## Check if tagged in git
 release-hook:

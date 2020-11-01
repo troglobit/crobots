@@ -1,0 +1,93 @@
+.\"  -*- nroff -*-
+.Dd November 1, 2020
+.Dt CROBOTS 6
+.Os
+.Sh NAME
+.Nm crobots
+.Nd fighting robots C compiler and virtual computer
+.Sh SYNIOPSIS
+.Nm crobots
+.Op Fl c
+.Op Fl d
+.Op Fl h
+.Op Fl i
+.Op Fl l Ar NUM
+.Op Fl m Ar NUM
+.Op Fl s
+.Op Fl v
+.Ar robot1.r Op .. robot4.r
+.Sh DESCRIPTION
+CROBOTS ("see-robots") is a game based on computer programming.
+.Pp
+Unlike arcade type games which require human inputs controlling some
+object, all strategy in CROBOTS must be complete before the actual game
+begins.  Game strategy is condensed into a C language program that you
+design and write.  Your program controls a robot whose mission is to
+seek out, track, and destroy other robots, each running different
+programs.  Each robot is equally equipped, and up to four robots may
+compete at once.  CROBOTS is best played among several people, each
+refining their own robot program, then matching program against program.
+.Pp
+CROBOTS consists of a C compiler, a virtual computer, and battlefield
+display (text graphics only, monochrome or color).  The CROBOTS compiler
+accepts a limited (but useful) subset of the C language.  The C robot
+programs are aided by hardware functions to scan for opponents, start
+and stop drive mechanisms, fire cannons, etc.  After the programs are
+compiled and loaded into separate robots, the battle is observed.
+Robots moving, missiles flying and exploding, and certain status
+information are displayed on the screen, in real-time.
+.Ss Intended Audience
+.Nm
+will most likely appeal to programmers (especially those who think they
+can write the "best" programs), computer game enthusiasts, people
+wishing to learn the C language, and those who are interested in
+compiler design and virtual computer interpreters.
+.Ss User interface
+.Nm
+does not use menus, windows, pop-ups, or any other user-friendly
+interface.  Since the emphasis is on designing and writing robot control
+programs, CROBOTS is started as a compiler might be started, from the
+command line.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl c
+Compile only.  Produces virtual machine assembler code and symbol
+tables.  All robots (MAX 4) programs given on the command line are
+compiled.  Useful for development.
+.It Fl d
+Compile and debug a single robot program.  When compiled single-step
+debugger is started where the program can be traced.
+.It Fl h
+Show built-in help text.
+.It Fl i
+Interactive mode.  Shows code output and "Press <enter> ..." prompts
+between each step before starting a tournament (match) or single play.
+.It Fl l Ar NUM
+Limit the number of machine CPU cycles per match when
+.Fl m
+is specified.  The default cycle limit is 500,000.
+.It Fl m Ar NUM
+Run a non-interactive tournament, where
+.Ar NUM
+is the number of total matches.  If
+.Fl m
+is not given, a single interactive match is played.
+.It Fl s
+Show robot stats on exit.
+.It Fl v
+Show
+.Nm
+version and exit.
+.El
+.Sh FILES
+.Bl -tag -width /usr/share/doc/crobots/manual.txt -compact
+.It Pa /usr/share/doc/crobots/manual.txt
+The Robot Programmer's Manual
+.It Pa /usr/share/doc/crobots/html/
+HTML version of the Robot Programmer's Manual
+.El
+.Sh AUTHORS
+.Nm
+was written by Tom Poindexter in 1985 and released as shareware for the
+IBM PC computer.  In 2013 Tom released it as free software under the GNU
+GPL, version 2.  It is currently maintained by Joachim Wiberg at GitHub.
