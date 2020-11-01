@@ -158,13 +158,13 @@ void init_comp(void)
 /* completes the robot structure */
 int reset_comp(void) 
 {
-  int i, j;
-  int found = 0;
-  int mainfunc = 0;
   s_func *chain;
-  int good = 1;
+  int mainfunc = 0;
   int warnings = 0;
+  int found = 0;
+  int good = 1;
   int ext_size;
+  int i, j;
 
   fprintf(f_out, "  code utilization: %3d%%   (%4d / %4d)\n",
 	  (int) (((long) num_instr) * 100L / CODESPACE) ,num_instr,CODESPACE);
@@ -252,6 +252,11 @@ int reset_comp(void)
   } else {
     free(func_tab);
   }
+
+  if (!good)
+    puts("  ** Robot disqualified!\n");
+  else if (warnings)
+    puts("");
 
   return good;
 }

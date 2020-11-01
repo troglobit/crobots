@@ -251,7 +251,6 @@ int comp(char *f[], int n)
 
     /* check r_flag for compile errors */
     if (r_flag) {
-      fprintf(f_out,"  ** Faulty robot, skipping!\n");
       free_robot(num);
     } else {
       strcpy(robots[num].name, s);
