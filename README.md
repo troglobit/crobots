@@ -28,7 +28,9 @@ CROBOTS started out as DOS shareware, but is, as of Oct 23 2013, free
 software under terms of the GNU General Public License, version 2.
 
 CROBOTS has been tested and runs on Linux (GLIBC & musl libc), FreeBSD,
-macOS, and OmniOS (Illumos/OpenSolaris).
+DragonflyBSD, macOS, and OmniOS (Illumos/OpenSolaris).  For some reason
+it does not work well on NetBSD, despite many hours of debugging by the
+maintainer.  Patches are most welcome!
 
 
 Intended audience
@@ -54,16 +56,21 @@ command line.
 Origin & References
 -------------------
 
-This is the original CROBOTS game, written by Tom Poindexter in 1985.
-Ported to Linux by Pablo Algar in 2018.  Please don't bother Tom with
-email or patches, he will probably **not** be updating CROBOTS any more.
+This is the original CROBOTS game, by [Tom Poindexter][] from 1985.  It
+was first ported to Linux by Pablo Algar in 2018.  Please don't bother
+Tom with email or patches, he will probably **not** be updating CROBOTS
+any more.
 
-If you like, you can instead send patches or GitHub pull requests to
-this project.  It is the logical continuation of the project and has the
-explicit goal of gathering (sane) patches from all forks out there.
+Instead, send patches or GitHub pull requests to this project.  It is
+the logical continuation of Tom's project and has the explicit goal of
+gathering (sane) patches from all forks out there.  Some of them work
+just as well, but this one has the explicit goal of retaining the true
+spirit of the original, with the same limits (e.g., MAX 1000 CPU
+instructions) and behavior.
 
 [C Robots Demo]:    https://asciinema.org/a/369639.svg
 [Demo]:             https://asciinema.org/a/369639
+[Tom Poindexter]:   https://github.com/tpoindex/
 [License]:          https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 [License Badge]:    https://img.shields.io/badge/License-GPL%20v2-blue.svg
 [Travis]:           https://travis-ci.com/github/troglobit/crobots
