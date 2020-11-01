@@ -111,6 +111,8 @@ int main(int argc,char *argv[])
   unsigned seed;
   long cur_time;
 
+  setlinebuf(stdout);
+
   while ((c = getopt(argc, argv, "cdhil:m:sv")) != EOF) {
       switch (c) {
         case 'c':		/* compile only flag */
@@ -154,17 +156,11 @@ int main(int argc,char *argv[])
 
   /* print version, copyright notice, GPL notice */
   if (r_interactive) {
-    fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
-    fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
-    fprintf(stderr,"Copyright 1985-2013 Tom Poindexter, All rights reserved.\n");
-    fprintf(stderr,"\n"
-	    "CROBOTS - fighting robots C compiler and virtual computer\n");
-    fprintf(stderr,
-	    "          distributed under the GNU GPL, version 2.\n");
-    fprintf(stderr,"\n");
-    fprintf(stderr,"Press <enter> to continue ...");
+    printf("CROBOTS fighting robots C compiler and virtual computer, license GNU GPL, v2\n"
+           "Copyright (C) 1985-2013 Tom Poindexter\n");
+    fputs("Press <enter> to continue ...", stdout);
     getchar();
-    fprintf(stderr,"\n");
+    fputs("\e[1A\e[K", stdout);
   }
 
   /* make sure there is at least one robot at this point */
@@ -236,7 +232,7 @@ int comp(char *f[], int n)
     else
       s = f[i];
 
-    fprintf(f_out, "\nCompiling %-20s", s);
+    fprintf(f_out, "Compiling %-20s", s);
 
     /* compile the robot */
     r_flag = 0;
@@ -258,8 +254,9 @@ int comp(char *f[], int n)
     }
 
     if (r_interactive && i < n-1) {
-      fprintf(stdout,"\n\nPress <enter> to continue.\n");
+      fputs("Press <enter> to continue ...", stdout);
       getchar();
+      fputs("\e[1A\e[K", stdout);
     }
   }
 
@@ -305,6 +302,11 @@ void play(char *f[], int n)
       robot_go(&robots[i]);
 
   puts("\nStarting ...");
+  if (r_interactive) {
+    fputs("Press <enter> to continue ...", stdout);
+    getchar();
+    fputs("\e[1A\e[K", stdout);
+  }
 
   /* catch interrupt */
   if (signal(SIGINT,SIG_IGN) != SIG_IGN)
@@ -396,6 +398,12 @@ void match(int m, long l, char *f[], int n)
   fclose(f_out);
 
   puts("\nMatch play starting.");
+  if (r_interactive) {
+    fputs("Press <enter> to continue ...", stdout);
+    getchar();
+    fputs("\e[1A\e[K", stdout);
+  }
+
   for (m_count = 1; m_count <= m; m_count++) {
     printf("\nMatch %6d: ",m_count);
 
