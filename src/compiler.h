@@ -77,6 +77,7 @@ extern struct intrin intrinsics[];
 /* functions */
 void yyerror(char *s);
 int yyparse(void);
+int yylex_destroy(void);
 
 void init_comp(void);
 int reset_comp(void);

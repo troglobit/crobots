@@ -240,6 +240,7 @@ int comp(char *f[], int n)
     init_comp();	/* initialize the compiler */
     yyin = f_in;
     yyparse();		/* start compiling */
+    yylex_destroy();
     reset_comp();	/* reset compiler and complete robot */
     fclose(f_in);
 
