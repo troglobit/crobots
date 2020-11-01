@@ -160,15 +160,15 @@ int reset_comp(void)
   int warnings = 0;
   int ext_size;
 
+  fprintf(f_out, "  code utilization: %3d%%   (%4d / %4d)\n",
+	  (int) (((long) num_instr) * 100L / CODESPACE) ,num_instr,CODESPACE);
+
   /* check for too many intructions */
   if (num_instr == CODESPACE) {
-    fprintf(f_out, "\n  ** Error: instruction space exceeded!\n");
+    fprintf(f_out, "  ** Error: instruction space exceeded!\n");
     r_flag = 1;
     good = 0;
   }
-
-  fprintf(f_out, "  code utilization: %3d%%   (%4d / %4d)\n",
-	  (int) (((long) num_instr) * 100L / CODESPACE) ,num_instr,CODESPACE);
 
   /* check func_tab to code_list for missing functions (accept intrinsics) */
   /* this ensures no functions are referenced that are not coded or intrinsic */
