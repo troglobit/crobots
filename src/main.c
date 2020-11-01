@@ -180,14 +180,14 @@ int main(int argc,char *argv[])
   /* compile only */
   if (comp_only) {
     comp(&argv[optind], argc - optind);
-    exit(0);
+    return 0;
   }
 
   /* debug the first robot listed */
   if (debug_only) {
     /* trace only first source */
     debug(argv[optind]);
-    exit(0);
+    return 0;
   }
 
   /* run a series of matches */
@@ -199,8 +199,7 @@ int main(int argc,char *argv[])
   if (r_stats)
     robot_stats();
 
-  /* all done */ 
-  exit(0);
+  return 0;
 }
 
 
@@ -391,19 +390,21 @@ void match(int m, long l, char *f[], int n)
 
   puts("\nMatch play starting.");
   for (m_count = 1; m_count <= m; m_count++) {
-
     printf("\nMatch %6d: ",m_count);
+
     for (i = 0; i < num_robots; i++) {
       init_robot(i);
       robot_go(&robots[i]);
       robots[i].status = ACTIVE;
     }
+
     rand_pos(num_robots);
     movement = MOTION_CYCLES;
     robotsleft = num_robots;
     c = 0L;
     while (robotsleft > 1 && c < l) {
       robotsleft = 0;
+
       for (i = 0; i < num_robots; i++) {
 	if (robots[i].status == ACTIVE) {
 	  robotsleft++;
@@ -411,6 +412,7 @@ void match(int m, long l, char *f[], int n)
 	  cycle();
 	} 
       }
+
       if (--movement == 0) {
 	c += MOTION_CYCLES;
 	movement = MOTION_CYCLES;
@@ -419,9 +421,8 @@ void match(int m, long l, char *f[], int n)
 
 	for (i = 0; i < num_robots; i++) {
 	  for (j = 0; j < MIS_ROBOT; j++) {
-	    if (missiles[i][j].stat == EXPLODING) {
+	    if (missiles[i][j].stat == EXPLODING)
 	      count_miss(i,j);
-	    }
 	  }
 	}
       }
@@ -517,10 +518,10 @@ void debug(char *f)
     /* r_flag set by hitting 'q' in cycle()'s debug mode */
     if (r_flag)
       c = 0;
+
     move_robots(0);
     move_miss(0);
   }
-
 }
 
 
