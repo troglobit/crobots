@@ -76,7 +76,7 @@ static int usage(int rc)
 	 "            tracing (debugger)\n"
 	 "  -h        This help text\n"
 	 "  -i        Interactive mode, show code output and 'Press <enter> ..'\n"
-	 "  -m NUM    Run a series of matches, were N is the number of matches.\n"
+	 "  -m NUM    Run a series of matches, were NUM is the number of matches.\n"
 	 "            If '-m' is not specified, the default is to run one match\n"
 	 "            and display the realtime battlefield\n"
 	 "  -l NUM    Limit the number of machine CPU cycles per match when '-m'\n"
