@@ -4,7 +4,7 @@ The Original C Robots Programming Game
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
-[![asciicast](https://asciinema.org/a/prHuqNvDdaRShGWDgZ6fH3KOj.svg)](https://asciinema.org/a/prHuqNvDdaRShGWDgZ6fH3KOj)
+[![C Robots Demo][]][Demo]
 
 Unlike arcade type games which require human inputs controlling some
 object, all strategy in CROBOTS must be complete before the actual game
@@ -14,8 +14,6 @@ seek out, track, and destroy other robots, each running different
 programs.  Each robot is equally equipped, and up to four robots may
 compete at once.  CROBOTS is best played among several people, each
 refining their own robot program, then matching program against program.
-
-![C robots action screenshot](doc/crobots.png)
 
 CROBOTS consists of a C compiler, a virtual computer, and battlefield
 display (text graphics only, monochrome or color).  The CROBOTS compiler
@@ -50,6 +48,8 @@ interface.  Since the emphasis is on designing and writing robot control
 programs, CROBOTS is started as a compiler might be started, from the
 command line.
 
+![C robots action screenshot](doc/crobots.png)
+
 
 Origin & References
 -------------------
@@ -62,6 +62,8 @@ If you like, you can instead send patches or GitHub pull requests to
 this project.  It is the logical continuation of the project and has the
 explicit goal of gathering (sane) patches from all forks out there.
 
+[C Robots Demo]:    https://asciinema.org/a/369639.svg
+[Demo]:             https://asciinema.org/a/369639
 [License]:          https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 [License Badge]:    https://img.shields.io/badge/License-GPL%20v2-blue.svg
 [Travis]:           https://travis-ci.com/github/troglobit/crobots
