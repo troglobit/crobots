@@ -29,6 +29,10 @@ AC_ARG_WITH(stack,
         AS_HELP_STRING([--with-stack=MAX], [Cheat, data stack entries for robots, default: 500]),
 	[dataspace=$withval], [dataspace=500])
 
+AC_ARG_WITH(symbols,
+        AS_HELP_STRING([--with-symbols=MAX], [Cheat, symbol entries per pool for robots, default: 64]),
+	[symspace=$withval], [symspace=64])
+
 AS_IF([test "x$codespace" != "xno"], [
 	AS_IF([test "x$codespace" = "xyes"], [
 		AC_DEFINE_UNQUOTED(INSTRMAX, 1000, [Max CPU instructions for robots])])
@@ -38,6 +42,11 @@ AS_IF([test "x$dataspace" != "xno"], [
 	AS_IF([test "x$dataspace" = "xyes"], [
 		AC_DEFINE_UNQUOTED(DATAMAX, 500, [Max data stack entries for robots])])
 	AC_DEFINE_UNQUOTED(DATAMAX, $dataspace, [Max data stack for robots])])
+
+AS_IF([test "x$symspace" != "xno"], [
+	AS_IF([test "x$symspace" = "xyes"], [
+		AC_DEFINE_UNQUOTED(SYMAX, 64, [Max number of symbol table entries per pool])])
+	AC_DEFINE_UNQUOTED(SYMAX, $symspace, [Max number of symbol table entries per pool])])
 
 AC_OUTPUT
 
@@ -56,6 +65,7 @@ cat <<EOF
 Behavior:
   Max CPU instructions..: $codespace
   Max data stack entries: $dataspace
+  Max symbols per pool..: $symspace
 
 ------------- Compiler version --------------
 $($CC --version || true)

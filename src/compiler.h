@@ -10,12 +10,14 @@
 #ifndef CROBOTS_COMPILER_H_
 #define CROBOTS_COMPILER_H_
 
+#include "config.h"
+
 #include <stdio.h>
 #include "crobots.h"
 
 /* compiler variables */
 
-#define MAXSYM    64    /* maximum number of symbol table entries per pool */
+#define MAXSYM    SYMAX /* maximum number of symbol table entries per pool */
 #define NESTLEVEL 16	/* maximum nest level for ifs, whiles, and fcalls */
 
 extern char *yytext;	/* from lexical analyzer */
