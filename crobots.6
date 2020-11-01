@@ -1,6 +1,6 @@
 .\"  -*- nroff -*-
 .Dd November 1, 2020
-.Dt CROBOTS 6
+.Dt CROBOTS 6 USD
 .Os
 .Sh NAME
 .Nm crobots
@@ -17,23 +17,29 @@
 .Op Fl v
 .Ar robot1.r Op .. robot4.r
 .Sh DESCRIPTION
-CROBOTS ("see-robots") is a game based on computer programming.
+.Nm
+("see-robots") is a game based on computer programming.
 .Pp
 Unlike arcade type games which require human inputs controlling some
-object, all strategy in CROBOTS must be complete before the actual game
-begins.  Game strategy is condensed into a C language program that you
-design and write.  Your program controls a robot whose mission is to
-seek out, track, and destroy other robots, each running different
-programs.  Each robot is equally equipped, and up to four robots may
-compete at once.  CROBOTS is best played among several people, each
-refining their own robot program, then matching program against program.
+object, all strategy in
+.Nm
+must be complete before the actual game begins.  Game strategy is
+condensed into a C language program that you design and write.  Your
+program controls a robot whose mission is to seek out, track, and
+destroy other robots, each running different programs.  Each robot is
+equally equipped, and up to four robots may compete at once.
+.Nm
+is best played among several people, each refining their own robot
+program, then matching program against program.
 .Pp
-CROBOTS consists of a C compiler, a virtual computer, and battlefield
-display (text graphics only, monochrome or color).  The CROBOTS compiler
-accepts a limited (but useful) subset of the C language.  The C robot
-programs are aided by hardware functions to scan for opponents, start
-and stop drive mechanisms, fire cannons, etc.  After the programs are
-compiled and loaded into separate robots, the battle is observed.
+.Nm
+consists of a C compiler, a virtual computer, and battlefield display
+(text graphics only, monochrome or color).  The
+.Nm
+compiler accepts a limited (but useful) subset of the C language.  The
+C robot programs are aided by hardware functions to scan for opponents,
+start and stop drive mechanisms, fire cannons, etc.  After the programs
+are compiled and loaded into separate robots, the battle is observed.
 Robots moving, missiles flying and exploding, and certain status
 information are displayed on the screen, in real-time.
 .Ss Intended Audience
@@ -46,8 +52,9 @@ compiler design and virtual computer interpreters.
 .Nm
 does not use menus, windows, pop-ups, or any other user-friendly
 interface.  Since the emphasis is on designing and writing robot control
-programs, CROBOTS is started as a compiler might be started, from the
-command line.
+programs,
+.Nm
+ is started as a compiler might be started, from the command line.
 .Sh OPTIONS
 .Bl -tag -width Ds
 .It Fl c
