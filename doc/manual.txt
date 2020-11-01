@@ -32,11 +32,7 @@
 
 
 
-        (C) Copyright 1985, All rights reserved.
-
-        CROBOTS is copyrighted by:
-
-                Tom Poindexter
+     (C) Copyright 1985-2013 Tom Poindexter, All rights reserved.
 
 
 
@@ -66,7 +62,11 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+
+
+
+
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -132,14 +132,14 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
 
         1.  License agreement:
 
-        CROBOTS is Copyright 1985 Tom Poindexter.
+        CROBOTS is Copyright 1985-2013 Tom Poindexter.
 
         CROBOTS is distributed under terms of the GNU General Public
         License, version 2.
@@ -199,7 +199,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -265,7 +265,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -331,7 +331,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -397,7 +397,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -463,7 +463,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -529,7 +529,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -595,7 +595,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -661,7 +661,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -727,7 +727,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -793,7 +793,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -859,7 +859,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -925,7 +925,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -991,7 +991,7 @@
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1057,7 +1057,7 @@ int d;                /* last damage check */
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1123,7 +1123,7 @@ main()
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1189,7 +1189,7 @@ new_corner() {
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1255,7 +1255,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1321,7 +1321,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1387,7 +1387,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1453,7 +1453,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1519,7 +1519,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1585,7 +1585,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1651,7 +1651,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 
@@ -1717,7 +1717,7 @@ int xx, yy;
 
 
 
-        CROBOTS (C) Copyright 1985 by Tom Poindexter.
+        CROBOTS (C) Copyright 1985-2013 Tom Poindexter.
 
 
 

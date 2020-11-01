@@ -1,5 +1,5 @@
 
-	CROBOTS (C) Copyright 1985 by Tom Poindexter, All rights reserved.
+	CROBOTS (C) Copyright 1985-2013 Tom Poindexter, All rights reserved.
 
         CROBOTS ("see-robots") is a game based on computer programming.
         Unlike arcade type games which require human inputs controlling

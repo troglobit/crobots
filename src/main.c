@@ -148,7 +148,7 @@ int main(int argc,char *argv[])
   if (r_interactive) {
     fprintf(stderr,"CROBOTS - version 1.1, December 1985\n");
     fprintf(stderr,"          version %s, October 2020\n", PACKAGE_VERSION);
-    fprintf(stderr,"Copyright 1985 by Tom Poindexter, All rights reserved.\n");
+    fprintf(stderr,"Copyright 1985-2013 Tom Poindexter, All rights reserved.\n");
     fprintf(stderr,"\n"
 	    "CROBOTS - fighting robots C compiler and virtual computer\n");
     fprintf(stderr,
