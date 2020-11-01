@@ -231,7 +231,7 @@ int comp(char *f[], int n)
     else
       s = f[i];
 
-    fprintf(f_out, "Compiling %-20s", s);
+    fprintf(f_out, "\nCompiling %-20s", s);
 
     /* compile the robot */
     r_flag = 0;
@@ -279,7 +279,7 @@ int prepare(char *f[], int n)
     break;
 
   case 0:
-    fprintf(stdout,"\n\nCannot play without at least 2 good robots.\n\n");
+    fprintf(stdout,"\nCannot play without at least 2 good robots.\n");
     exit(1);
   }
 
@@ -299,6 +299,8 @@ void play(char *f[], int n)
   num_robots = prepare(f, n);
   for (i = 0; i < num_robots; i++)
       robot_go(&robots[i]);
+
+  fprintf(stdout, "\nStarting ...\n");
 
   /* catch interrupt */
   if (signal(SIGINT,SIG_IGN) != SIG_IGN)
@@ -362,19 +364,15 @@ void play(char *f[], int n)
 
   end_disp();
 
-  k = 0;
   for (i = 0; i < MAXROBOTS; i++) {
-    if (robots[i].status == ACTIVE) {
-      fprintf(stdout,"\r\nAnd the winner is: ");
-      fprintf(stdout,"(%d) %s\r\n",i+1,robots[i].name);
-      k = 1;
+    if (robots[i].status == ACTIVE)
       break;
-    }
   }
 
-  if (k == 0) {
-    fprintf(stdout,"\r\nIt's a draw\r\n");
-  }
+  if (i == MAXROBOTS)
+    fprintf(stdout,"\nIt's a draw\n");
+  else
+    fprintf(stdout,"\nThe winner is: %s (%d)\r\n", robots[i].name, i + 1);
 
   exit(0);
 }
@@ -396,7 +394,7 @@ void match(int m, long l, char *f[], int n)
   num_robots = prepare(f, n);
   fclose(f_out);
 
-  fprintf(stderr,"\nMatch play starting.\n\n");
+  fprintf(stderr,"\nMatch play starting.\n");
   for (m_count = 1; m_count <= m; m_count++) {
 
     printf("\nMatch %6d: ",m_count);
@@ -663,7 +661,7 @@ void catch_int(int signo)
   if (!r_debug)
     end_disp();
 
-  fprintf(stderr, "Aborted.\n");
+  fprintf(stderr, "\nAborted.\n");
   if (r_stats)
     robot_stats();
 

@@ -247,9 +247,6 @@ int reset_comp(void)
     free(func_tab);
   }
 
-  if (!good || warnings)
-    puts("");
-
   return good;
 }
 
