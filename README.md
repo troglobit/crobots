@@ -4,9 +4,7 @@ The Original C Robots Programming Game
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
-<script id="asciicast-prHuqNvDdaRShGWDgZ6fH3KOj"
-	    src="https://asciinema.org/a/prHuqNvDdaRShGWDgZ6fH3KOj.js"
-		async></script>
+[![asciicast](https://asciinema.org/a/prHuqNvDdaRShGWDgZ6fH3KOj.svg)](https://asciinema.org/a/prHuqNvDdaRShGWDgZ6fH3KOj)
 
 Unlike arcade type games which require human inputs controlling some
 object, all strategy in CROBOTS must be complete before the actual game
