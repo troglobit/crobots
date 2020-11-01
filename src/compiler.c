@@ -88,7 +88,7 @@ void yyerror(char *s)
   for (i = 1; i < column; i++)
     fprintf(f_out," ");
   fprintf(f_out,"^\n");
-  fprintf(f_out,"** Error ** %s",s);
+  fprintf(f_out,"** Error line %d ** %s\n", yylineno, s);
 }
 
 
