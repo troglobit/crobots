@@ -50,6 +50,7 @@ void play(char *f[], int n);
 void match(int m, long l, char *f[], int n);
 void debug(char *f);
 void init_robot(int i);
+void clone_robot(int i);
 void free_robot(int i);
 void robot_stats(void);
 void rand_pos(int n);
@@ -273,8 +274,8 @@ int prepare(char *f[], int n)
     break;
 
   case 1:		   /* if only one robot, make it fight itself */
-    fprintf(stderr,"%s: only one robot?  Cloning a second from %s.\n", PACKAGE, f[0]);
-    robots[1] = robots[0];
+    fprintf(stderr,"%s: only one robot, cloning another from %s.\n", PACKAGE, f[0]);
+    clone_robot(0);
     num++;
     break;
 
@@ -595,6 +596,20 @@ void init_robot(int i)
 }
 
 
+/* clone_robot - create a clone when there is only one */
+void clone_robot(int i)
+{
+  if (i + 1 >= MAXROBOTS) {
+    fprintf(stderr, "Robot overflow\n");
+    exit(1);
+  }
+
+  robots[i + 1] = robots[i];
+  robots[i + 1].external = (long *) malloc(robots[i].ext_count * sizeof(long));
+  robots[i + 1].stackbase = (long *) malloc(DATASPACE * sizeof(long));
+  robots[i + 1].stackend = robots[i + 1].stackbase + DATASPACE;
+}
+
 
 /* free_robot - frees any allocated storage in a robot */
 void free_robot(int i) 
@@ -619,6 +634,7 @@ void free_robot(int i)
     free(temp);
   }
 }
+
 
 /* robot_stats - dump robot stats, optionally showed at exit */
 void robot_stats(void)
