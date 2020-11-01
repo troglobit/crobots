@@ -30,3 +30,10 @@ void robot_stat (int n);
 void show_cycle (long l);
 
 #endif /* CROBOTS_SCREEN_H_ */
+
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

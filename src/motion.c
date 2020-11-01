@@ -376,3 +376,9 @@ void move_miss(int displ)
   }
 }
 
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

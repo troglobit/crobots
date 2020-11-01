@@ -57,3 +57,9 @@ void count_miss(int i, int j)
     missiles[i][j].count--;
 }
 
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

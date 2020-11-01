@@ -332,3 +332,9 @@ void show_cycle(long l)
   refresh();
 }
 
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

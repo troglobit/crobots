@@ -518,3 +518,9 @@ void dumpvar(long *pool, int size)
   }
 }
 
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

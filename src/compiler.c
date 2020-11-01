@@ -877,3 +877,9 @@ void printop(int op)
   }
 }
 
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

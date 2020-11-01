@@ -674,4 +674,9 @@ void catch_int(int signo)
   exit(0);
 }
 
-/* end of main.c */
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

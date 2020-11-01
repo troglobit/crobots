@@ -153,3 +153,10 @@ int r_debug,			/* debug switch */
 /* motion functions */
 
 #endif /* CROBOTS_H_ */
+
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

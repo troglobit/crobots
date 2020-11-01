@@ -13,3 +13,10 @@ void c_cos(void);     /* cos(degree); = cos * 100000 */
 void c_tan(void);     /* tan(degree); = tan * 100000 */
 void c_atan(void);    /* atan(ratio); = degree */
 void c_sqrt(void);    /* sqrt(x); = square root */
+
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */

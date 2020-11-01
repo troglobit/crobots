@@ -334,4 +334,9 @@ void c_sqrt(void)
   push(x);
 }
 
-
+/**
+ * Local Variables:
+ *  indent-tabs-mode: nil
+ *  c-file-style: "gnu"
+ * End:
+ */
