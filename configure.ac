@@ -21,14 +21,23 @@ AC_SEARCH_LIBS([cos], [m])
 AX_WITH_CURSES
 AS_IF([test "x$ax_cv_curses" != "xyes" ], [AC_MSG_ERROR([curses library not found])])
 
-AC_ARG_WITH(max-instructions,
-        AS_HELP_STRING([--with-max-instructions=N], [Cheat, use more CPU instructions for robotos, default: 1000]),
+AC_ARG_WITH(instructions,
+        AS_HELP_STRING([--with-instructions=MAX], [Cheat, CPU instructions for robots, default: 1000]),
 	[codespace=$withval], [codespace=1000])
 
-AS_IF([test "x$with_codespace" != "xno"], [
+AC_ARG_WITH(stack,
+        AS_HELP_STRING([--with-stack=MAX], [Cheat, data stack entries for robots, default: 500]),
+	[dataspace=$withval], [dataspace=500])
+
+AS_IF([test "x$codespace" != "xno"], [
 	AS_IF([test "x$codespace" = "xyes"], [
 		AC_DEFINE_UNQUOTED(INSTRMAX, 1000, [Max CPU instructions for robots])])
 	AC_DEFINE_UNQUOTED(INSTRMAX, $codespace, [Max CPU instructions for robots])])
+
+AS_IF([test "x$dataspace" != "xno"], [
+	AS_IF([test "x$dataspace" = "xyes"], [
+		AC_DEFINE_UNQUOTED(DATAMAX, 500, [Max data stack entries for robots])])
+	AC_DEFINE_UNQUOTED(DATAMAX, $dataspace, [Max data stack for robots])])
 
 AC_OUTPUT
 
@@ -46,6 +55,7 @@ cat <<EOF
 
 Behavior:
   Max CPU instructions..: $codespace
+  Max data stack entries: $dataspace
 
 ------------- Compiler version --------------
 $($CC --version || true)

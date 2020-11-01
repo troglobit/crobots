@@ -11,20 +11,20 @@
 
 #include "config.h"
 
-#define ILEN             8	/* length of identifiers, also in lexanal.l */
-#define MAXROBOTS        4	/* maximum number of robots */
-#define CODESPACE      INSTRMAX	/* maximum number of machine instructions 1000 originally*/
-#define DATASPACE      500	/* maximum number of data stack entries */
-#define UPDATE_CYCLES   30	/* number of cycles before screen update (originally 30)*/
-#define MOTION_CYCLES   15 	/* number of cycles before motion update (originally 15)*/
+#define ILEN           8	/* length of identifiers, also in lexanal.l */
+#define MAXROBOTS      4	/* maximum number of robots */
+#define CODESPACE      INSTRMAX	/* maximum number of machine instructions (1000) */
+#define DATASPACE      DATAMAX	/* maximum number of data stack entries (500) */
+#define UPDATE_CYCLES  30	/* number of cycles before screen update (30) */
+#define MOTION_CYCLES  15 	/* number of cycles before motion update (15) */
 #define CYCLE_DELAY    200	/* microseconds of sleep to slow down things when display is on*/
-#define CYCLE_LIMIT 500000L	/* limit of background cycles */
-#define ROBOT_SPEED      7	/* multiplicative speed factor */
-#define TURN_SPEED      50	/* maximum speed for direction change */
-#define ACCEL           10	/* acceleration factor per motion cycle */
+#define CYCLE_LIMIT    500000L	/* limit of background cycles */
+#define ROBOT_SPEED    7	/* multiplicative speed factor */
+#define TURN_SPEED     50	/* maximum speed for direction change */
+#define ACCEL          10	/* acceleration factor per motion cycle */
 
-#define ACTIVE    1		/* robot active & running */
-#define DEAD      0		/* dead robot */
+#define ACTIVE         1	/* robot active & running */
+#define DEAD           0	/* dead robot */
 
 
 
