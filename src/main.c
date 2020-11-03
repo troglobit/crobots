@@ -80,7 +80,7 @@ static int usage(int rc)
 	 "            If '-m' is not specified, the default is to run one match\n"
 	 "            and display the realtime battlefield\n"
 	 "  -l NUM    Limit the number of machine CPU cycles per match when '-m'\n"
-	 "            is specified.  The defaul cycle limit is 500,000\n"
+	 "            is specified.  The default cycle limit is 500,000\n"
 	 "  -s        Show robot stats on exit\n"
 	 "  -v        Show program version and exit\n"
 	 "\n"
