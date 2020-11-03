@@ -2,6 +2,9 @@ SUBDIRS        = doc examples src
 dist_doc_DATA  = README.md LICENSE
 dist_man6_MANS = crobots.6
 
+package:
+	@debuild -uc -us --lintian-opts --profile debian -i -I --show-overrides
+
 ## Check if tagged in git
 release-hook:
 	if [ "x`git tag -l v$(PACKAGE_VERSION)|grep $(PACKAGE_VERSION)`" = "x" ]; then	\
@@ -21,7 +24,7 @@ release-hook:
 	fi
 
 ## Target to run when building a release
-release: release-hook distcheck
+release: release-hook distcheck package
 	@for file in $(DIST_ARCHIVES); do	\
 		md5sum $$file > ../$$file.md5;	\
 	done

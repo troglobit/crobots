@@ -1,0 +1,9 @@
+.debhelper/
+crobots/
+crobots-doc/
+tmp/
+*.log
+*.substvars
+*-build-stamp
+autoreconf.*
+files

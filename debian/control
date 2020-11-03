@@ -1,0 +1,48 @@
+Source: crobots
+Section: games
+Priority: optional
+Maintainer: Joachim Wiberg <troglobit@gmail.com>
+Homepage: https://github.com/troglobit/crobots
+Build-Depends: debhelper (>= 10), libncurses-dev
+Standards-Version: 4.3.0
+Vcs-Git: https://github.com/troglobit/crobots.git
+Vcs-Browser: https://github.com/troglobit/crobots/commits/
+
+Package: crobots
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: crobots-doc
+Description: fighting robots C compiler and virtual computer
+ CROBOTS ("see-robots") is a game based on computer programming.
+ .
+ Unlike arcade type games which require human inputs controlling some
+ object, all strategy in CROBOTS must be complete before the actual
+ game begins.  Game strategy is condensed into a C language program
+ that you design and write.  Your program controls a robot whose
+ mission is to seek out, track, and destroy other robots, each
+ running different programs.  Each robot is equally equipped, and up
+ to four robots may compete at once.  CROBOTS is best played among
+ several people, each refining their own robot program, then matching
+ program against program.
+ .
+ CROBOTS consists of a C compiler, a virtual computer, and
+ battlefield display (text graphics only, monochrome or color).
+ The CROBOTS compiler accepts a limited (but useful) subset of the
+ C language.  The C robot programs are aided by hardware functions
+ to scan for opponents, start and stop drive mechanisms, fire
+ cannons, etc.  After the programs are compiled and loaded into
+ separate robots, the battle is observed.  Robots moving, missiles
+ flying and exploding, and certain status information are displayed
+ on the screen, in real-time.
+
+Package: crobots-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Suggests: crobots
+Description: Documentation for CROBOTS
+ This package contains the Robot Programmer's Guide for CROBOTS.
+ .
+ There is a manual.txt in the base package as well, this package
+ holds the HTML formatted version of the same text.
