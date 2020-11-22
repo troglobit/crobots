@@ -11,3 +11,6 @@ override_dh_auto_configure:
 override_dh_auto_install:
 	dh_auto_install
 	rm debian/tmp/usr/share/doc/crobots/LICENSE
+
+override_dh_compress:
+	dh_compress -X.r
