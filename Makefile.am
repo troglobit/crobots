@@ -5,7 +5,7 @@ dist_man6_MANS = crobots.6
 # Add --show-overrides to see what overrides are in place, or have a
 # look in the file debian/source/linitian-overrides
 package:
-	@debuild -uc -us --lintian-opts --profile debian -i -I
+	@debuild -uc -us -B --lintian-opts --profile debian -i -I
 
 ## Check if tagged in git
 release-hook:
