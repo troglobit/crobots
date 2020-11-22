@@ -1,4 +1,3 @@
 crobots source: testsuite-autopkgtest-missing
 crobots source: out-of-date-standards-version
-crobots source: source-contains-prebuilt-windows-binary
-
+crobots source: source-contains-prebuilt-windows-binary legacy/CROBOTS.EXE

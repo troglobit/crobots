@@ -2,8 +2,10 @@ SUBDIRS        = doc examples src
 dist_doc_DATA  = README.md LICENSE
 dist_man6_MANS = crobots.6
 
+# Add --show-overrides to see what overrides are in place, or have a
+# look in the file debian/source/linitian-overrides
 package:
-	@debuild -uc -us --lintian-opts --profile debian -i -I --show-overrides
+	@debuild -uc -us --lintian-opts --profile debian -i -I
 
 ## Check if tagged in git
 release-hook:
