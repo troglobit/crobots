@@ -1,5 +1,6 @@
-crobots (1.2) unstable; urgency=medium
+crobots (1.2) stable; urgency=medium
 
-  * Initial release.
+  * Initial release.  Built with original defaults for max 1000 CPU
+    instructions, max 500 data stack entries, and 64 symbols.
 
- -- Joachim Wiberg <troglobit@gmail.com>  Mon, 02 Nov 2020 06:58:00 +0100
+ -- Joachim Wiberg <troglobit@gmail.com>  Sun, 22 Nov 2020 10:50:56 +0100

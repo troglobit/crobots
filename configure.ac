@@ -1,4 +1,4 @@
-AC_INIT([CROBOTS], [1.2-beta1],, [crobots], [https://github.com/troglobit/crobots/])
+AC_INIT([CROBOTS], [1.2],, [crobots], [https://github.com/troglobit/crobots/])
 AC_CONFIG_AUX_DIR(aux)
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11 foreign])
