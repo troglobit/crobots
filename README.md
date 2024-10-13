@@ -1,6 +1,6 @@
 The Original C Robots Programming Game
 ======================================
-[![License Badge][]][License] [![Travis Status][]][Travis]
+[![License Badge][]][License] [![GitHub Status][]][GitHub]
 
 CROBOTS ("see-robots") is a game based on computer programming.
 
@@ -73,5 +73,5 @@ instructions) and behavior.
 [Tom Poindexter]:   https://github.com/tpoindex/
 [License]:          https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 [License Badge]:    https://img.shields.io/badge/License-GPL%20v2-blue.svg
-[Travis]:           https://travis-ci.com/github/troglobit/crobots
-[Travis Status]:    https://travis-ci.com/troglobit/crobots.png?branch=main
+[GitHub]:           https://github.com/troglobit/crobots/actions/workflows/build.yml/
+[GitHub Status]:    https://github.com/troglobit/crobots/actions/workflows/build.yml/badge.svg
