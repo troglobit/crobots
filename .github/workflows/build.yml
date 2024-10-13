@@ -1,0 +1,56 @@
+name: Bob the Builder
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!dev'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    name: ${{ matrix.compiler }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [gcc, clang]
+      fail-fast: false
+    env:
+      MAKEFLAGS: -j3
+      CC: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: |
+          ./autogen.sh
+          ./configure --prefix=/tmp/crobots
+      - name: Build
+        run: |
+          make V=1
+      - name: Install
+        run: |
+          make install-strip
+          ls -lR /tmp/crobots
+          ldd /tmp/crobots/bin/crobots
+          size /tmp/crobots/bin/crobots
+          /tmp/crobots/bin/crobots -h
+
+  debian:
+    name: Debian Package
+    runs-on: ubuntu-latest
+    container: debian:stable
+    steps:
+      - uses: actions/checkout@v4
+      - name: Installing dependencies
+        run: |
+          apt-get update
+          apt-get install -y build-essential autoconf automake dpkg-dev debhelper \
+                             devscripts libsystemd-dev systemd pkg-config
+      - name: Building Debian package
+        run: |
+          ./autogen.sh
+          ./configure
+          make distcheck
+          make package
