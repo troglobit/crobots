@@ -15,6 +15,9 @@ AM_PROG_LEX
 
 AC_HEADER_STDC
 
+# Check for pkg-config first, warn if it's not installed
+PKG_PROG_PKG_CONFIG
+
 # Check for a common math function in -lm
 AC_SEARCH_LIBS([cos], [m])
 
