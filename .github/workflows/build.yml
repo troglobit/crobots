@@ -46,8 +46,9 @@ jobs:
       - name: Installing dependencies
         run: |
           apt-get update
-          apt-get install -y build-essential autoconf automake dpkg-dev debhelper \
-                             devscripts libncurses-dev pkg-config
+          apt-get install -y build-essential autoconf automake bison flex \
+                             libncurses-dev pkg-config dpkg-dev debhelper \
+                             devscripts
       - name: Building Debian package
         run: |
           ./autogen.sh
