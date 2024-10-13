@@ -47,7 +47,7 @@ jobs:
         run: |
           apt-get update
           apt-get install -y build-essential autoconf automake dpkg-dev debhelper \
-                             devscripts libsystemd-dev systemd pkg-config
+                             devscripts libncurses-dev
       - name: Building Debian package
         run: |
           ./autogen.sh
