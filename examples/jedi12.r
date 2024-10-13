@@ -1,3 +1,103 @@
+/*
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZOZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZOZZZZZZZOOZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZOOOOOOOOOZOOZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$ZZZZZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZOOOOOOOOOOOZOZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$ZZZZZZZZZZZZZZ
+ZZZZZZZZZOZZZZZZZOOOOOOOOOOOOOOOOZZZZZZZZZZZZZZZZZZZZZZ$$$777I77$$$ZZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZOOOOOOOOOOZZOZZZZZZZZZZZZZZZZZZZZ$$77I?=?I7$$ZZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZOZOOOOOOOOOOZZZZZZZZZZZZZZZZZZZZZZZZ$$$7I?..+I7$$$ZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZOOOOOOOOOOOOOOZZZZZZZZZZZZZZZZZZZZZ$$77I= .?I7$$$ZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZOOOOOZZZZZZZZZZZZZZZZZZZZZZZZZ$$$7I?,.~?I7$$$ZZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZOZZZZZZZZZZZZZZZZZZZZZZZZZZ$$77I+..+I77$$$$ZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZOZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$7I?~.,?I77$$$$ZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$77I+..=?I7$$$$$ZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$7I?=..+I77$$$$$$ZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$77I?,.~?I77$$$$$$$$ZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$7I?=..+I77$$$$$$ZZZZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$77I?:.,?I77$$$$$$$Z$ZZZ$ZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$77I+..=?I77$$$$$$Z$$ZZZZZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$77I?~..+II77$$$$$$$$$$$$$ZZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$77I+..:?I777$$$$$$$$$$$$$$$ZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$77I?=..=?I77$$$$$$$$$$$$$$$ZZZ
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$777I?,.,+I777$$$$$$$$$$$$$$$$$Z
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$77II+..=?I777$$$$$$$$$$$$$$Z$Z$
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$77I?~..+II77$$$$$$$$$$$$$$$$$Z$
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$$$7II+..:?I77$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$Z$$$$$$$$$$77I?=..=?I77$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$$$$$$777I+:..+II77$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZZZZZZZZ$Z$$$$$$$$$$$$$$$$$$$$$77I?+..~?I77$$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$$$$$$$$$$$$$$777I?~..=?I77$$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$$$$$$$$$$$$$$$$77II+,.:+II77$$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZZ$$$$$$$$$$$$$$8MMMMM$$$$$$$$$77I?=..=?I777$$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZZZZZZZZZZ$$$$$$$$$$$$DNNNMNMNDDNN$$$$$77II+:..+?I777$$$$$$$$$$$$$$$$$$$$$
+ZZZZZ$ZZZZ$ZZZZZ$$$$$$$$$$$MMNNZM$ONZOMMNO$$$77I?=..:?II777$$$$$$$$$$$$$$$$$$$$$
+ZZZZZZZ$ZZZZZ$$$$$$$$$$$$$MMO$NND8O$+D8NZDZ777II+:..=?II777$$$$$$$$$$$$$$$$$$$$$
+ZZZ$$ZZZ$$$$$$$$$$$$$$$$$NMZII?+=+===+OO7Z8777I?+..,+II777$$$$$$$$$$$$$$7$$$$$$$
+$$$ZZ$Z$$$$$$$$$$$$$$$$$$D87???++~~==+IZM8D$77I?~..~+II777$$$$$$$$$$$$$$77$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$ZN$7I??+=~~~=+=ZDNDD7I?+,..=?I777$7$$$$$$$$$$$$7777777$$
+$Z$$$$$$$$$$$$$$$$$$$$$$$II7II++=+==++?OMD88II?=..:+?I777$$$$$$$$$$$$$777777777$
+$$$$$$$$$$$$$$$$$$$$$$$$$$ND7ZZIII?=++?8DDOOII+: .=?II777$7$$$$$$$$$$77777777777
+$$$$$$$$$$$$$$$$$$$$$$$$$$ZNN+?ODMD??++$Z?I8I?=. .+?II777$$$$$$$$$77$77777777777
+$$$$$$$$$$$$$$$$$$$$$$$$77ZZ$~==7?===++$O+?7I+~ .~+II777777$$$77$$$7777777777777
+$$$$$$$$$$$$$$$$$$$$$$$$$7O$+=+==+==++??~=OI?=, .=?II777$7$77$777$77777777777777
+$$$$$$$$$$$$$$$$$$$$$$$$$$NO$N$++==?+I$==ZII+~. ,+?II7777777$$77$$77777777777777
+$$$$$$$$$$$$$$$$$$$$$$$$7Z7IZ77+=+=?77$OO7I?+:..~?II77777$7$$$777777777777777777
+$$$$$$$$$$$$$$$$$$$7$7$778DO88$7?+??77$IIII?=. .+?II7777777777777777777777777777
+$$$$$$$$$$$$$$$$$77777777O$77I+7Z7$Z$Z?OII?+~..:+?II7777777777777777777777777777
+$$$$$$$$$$$$$$$$$77777777Z$Z777ZO8ZOO?OZ=I?=,..=?II77777777777777777777777777777
+$$$$$$$$$$$$$$$77777$7$77Z8OO$ZDNDD$8OZ=~~+:..,+?II777777$$777777777777777777777
+$$$$$$$$$$$$$7777777$O8DMM8MDDD8$ND8OZ?=~:~,..:==~=?77777$$777777777777777777777
+$$$$$$$$$$$$$$7$===++7$OMNN8NMMDDD8OOD=~~=:. .~~~=~~~==77$$77$777777777777777777
+$$$$$$$$$$$$++===~=~~=Z?O8DD8ZNDOOOZ8==~~~,..:~~~~~~~~~==77777777777777777777777
+$$$$$$$$$$$8I++=~~~~~~~=+Z?7$++8OOOZ+=~~~:...:+~~=~~~~~==+I$$7777777777777777777
+$$$$$$$$$$8MZI+==~~~~::?:?=+7++7OOZ8=~~~=,...=~~~+~~~~==+~~$$$777777$77777777777
+$$$$$$$$7$D7ON??=+=~:~~I:=?~+I+=8OZ+=~~:~...,+~:===~~=+=~~?$$$7$7$$$777777777777
+$$$$$$77$$=II=I+=~==::~7~~+==?=~+ZD=~~:+:...:~~:I~~===~~~::$$$$$$$7777777$7777$7
+$$$$$$$$$$=$?=~:+=~?=:~+=~?+?+~~+7==~~~=,..,~~:7=~==+~:+~?:$$$$$$777777$777$$$77
+$$$$$$$$$$8I~7=~=8+=D=::=~==+~:~===~=~:~...,~~=~~==+~==::=I$$$$$777777$7777$$777
+$$$$$$$$$OOZ$+~I=~I+~7~:~~~+=?~~~===~~~:...:::+==+~==~~:::7$$$$$$7777$$777777777
+$$$$$$$$$$=DZI=~~~=~?=~:=:~==Z~~$=~~~:~,..,:~~=+=~~~=:=~:~7$$$$$7777777777777777
+$$$$$$$$$$O7I=~=~~~~~:=:Z~~I++I=7=~~~=:...:::~?=~~=~~+:::~7$$$$$777777$777777777
+$$$$$$$$7788$7?++:~::~:~I~:+I=?Z=~~~~~,..,::~=7~=I~~~::::~$$$$$$$$7777777777$777
+$$$$$$$$$78OZ$7II+=~:~~=?~~+I=$==~~:::. .,::++~+~~=~:~:~:~7$$$$$$$$7$77$$7$$$7$7
+$$$$$$$$77$87I?I?I++=~~~7+~+7=I==~~:=,...:::Z+I~~~::::::::$$$$$$$$$$7$7$$$$$7$$7
+$$$$$$$$$7==?=?+=+=++~~~~?~+I?====~=:, .,::~Z$=~~~:~~:~:~~7$$$$$$$$$$777$7$$7$$7
+$$$$$$$$$$~=?Z$===~~~=+~~~==7++===~=:. .,::?$~+~=:~=~::~:~7$$$$$$$$$$77$$$$7$$$$
+$$$$$$$$$OZ~=$OO=?+==~====~~~+===~?7=..:?:+$=?==~===~::~:~$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$Z$$+IOOO=??++++++=++=~~~I~+=~+?++Z+~~===I~:::~::~$$$$$$$$$$$$$$$$$$$$$7
+$$$$$$$$$OZIII+OO8O7+?I$NNDDNDDI+++Z7??I+Z?~==~?+~~::::::~$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$Z7+?II7=887$8ZMNNMDNNMNNOD88IOIO=~~~=++==::~:::~~$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$O$?I7?$Z?DO8NMMNMNNN8Z?~=D888+~=~~=~=+==~:~:::~~=$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$ZZII7I7ZOO8MNMMNMMND8OI==:8?O?~~=+=+==::::::::~~=$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$OOO?77I$O88=MMMMNMM87=?OI=~:7N====++~~::~::~:::~=$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$ODZ$7ZOOOO?MMMMMM8Z==+D7+~====+:~::::~~::::::~+$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$8?78D8ZZO8OOOO?MMMM8=I$Z7I$==~=~~~:::~~~::::::~~?$$$$$$$$$$$$$$$$$$$$$$
+ZZZ$$$$$$OZIZDDDZZ8DO88O88NOOZ7$++O7??=:::::::~~::::::::~I$$$$$$$$$$$$$$$$$$$$$$
+ZZZ$$Z$$$$OOI$8NNDDDOOO8DNNMN8$+8Z?=+I==+~::::::::~::::~~7$$$$$$$$$$$$$$$$$$$$$$
+$$??Z??+?7+?O?OIOZNOI=O$$ZO88DMN$+?======?~::::::::::::~~$$$$$$$$$$$$$$$$$$$$$$$
+OZZZZZZ$$$$$$$MNMDOMDDMDD8OOO8D8O+==++?~~=M=~::::::::::~~$$$$$$$$$$$$$$$$77$$$7$
+ 
+ ======  ======  ====      ==
+   ==    ==      ==  ==    ==
+   ==    ==      ==    ==  ==
+   ==    ====    ==    ==  ==
+   ==    ==      ==    ==  ==
+  ==     ==      ==    ==  ==
+===      ======  ========  ==
+ 
+Crobot      : Jedi
+Type        : Macro
+Version     : 12.2
+Author      : Maurizio Camangi
+Begin       : 13-02-2012
+Revision    : 01-01-2013
+
+Jedi12 integra il movimento di flash8c nel 3vs3, nel caso in cui non vi sia
+alcun avversario nell'angolo opposto (senso orario): compie un giro completo,
+e poi riprende con l'algoritmo consueto. Jedi12 perde l'uso delle variabili
+bidimensionali (vettori): coreografiche e superflue.
+*/
+
 int
 	ang,
 	oang,
